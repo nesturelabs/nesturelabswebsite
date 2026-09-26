@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html { background:#050505; }
+  body { margin:0; background:#050505; color:#F5F5F5; font-family:Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#E50914; text-decoration:none; }
+  a:hover { color:#FF2323; }
+  @keyframes nlCore { 0%,100% { opacity:.4; } 50% { opacity:1; } }
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; } }
+</style>
+</helmet>
+<div style="max-width:1180px;margin:0 auto;padding:56px clamp(20px,4vw,44px) 90px">
+
+  <header style="display:flex;flex-direction:column;gap:16px;padding-bottom:32px;border-bottom:1px solid #26262B">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.24em;color:#A1A1AA">
+      <span style="width:6px;height:6px;border-radius:50%;background:#E50914;box-shadow:0 0 10px #E50914"></span>NESTURE LABS — HOME v2
+    </div>
+    <h1 style="margin:0;max-width:20ch;font-family:Poppins,sans-serif;font-weight:700;font-size:clamp(36px,4.2vw,58px);line-height:1.02;letter-spacing:-0.035em">One thread, thirteen beats</h1>
+    <p style="margin:0;max-width:64ch;font-size:15.5px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">There is exactly one spider and one dragline for the whole page. Its position is a point on that single path at the current scroll offset, so travel is continuous and reversible by construction — it cannot teleport, restart or fade between sections.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+      <a href="Nesture Labs Home v2.dc.html" style="display:flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;background:#E50914;color:#FFFFFF;font-size:14px;font-weight:500;white-space:nowrap;box-shadow:0 0 26px rgba(229,9,20,0.45)" style-hover="background:#FF2323;color:#FFFFFF">Open the live page →</a>
+      <a href="#nl-geo" style="display:flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;border:1px solid #26262B;background:rgba(23,23,26,0.6);color:#F5F5F5;font-size:14px;white-space:nowrap" style-hover="border-color:#E50914;color:#F5F5F5">Geometry rules</a>
+      <a href="#nl-sheet" style="display:flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;border:1px solid #26262B;background:rgba(23,23,26,0.6);color:#F5F5F5;font-size:14px;white-space:nowrap" style-hover="border-color:#E50914;color:#F5F5F5">Component sheet</a>
+    </div>
+  </header>
+
+  <section style="padding:40px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">A / CONTINUITY MECHANICS</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px;margin-top:20px">
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">THE PLAYHEAD</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">A point on one path</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">The spider sits at <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">path.dAtY(scrollY + 50vh)</span>. Continuity and reversibility are properties of that formula, not of per-scene code.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">THE THREAD</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Drawn, then dimmed</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">One SVG path spans the document. Scroll drives <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">stroke-dashoffset</span>; passed thread stays at 25% and a 260px bright window rides with the spider.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">ANCHORS</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Generated from layout</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">Every hub, rail, hanger and pad derives from measured element boxes, so a reflow moves the thread with the content instead of breaking it.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">NO FLAT TRAVEL</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">dy ≥ dx × 0.34</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">The waypoint emitter forces vertical extent proportional to horizontal travel, capped at 300px, so no run can be skipped in one scroll step.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">BEAT CLOCKS</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Excursion windows</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">Hub beats run on <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">beat([yIn, yOut])</span> — the spider's own span — so a story never plays before its actor arrives.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">REDUCED MOTION</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Static thread</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">The path draws fully, the spider parks at the hero anchor, the rAF loop never starts and every beat renders resolved.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:52px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">B / THE WHOLE PATH</div>
+    <p style="margin:14px 0 0;max-width:62ch;font-size:15px;line-height:1.7;color:#A1A1AA">Lane travel in dim red, excursions to hubs in bright red. Every horizontal run is sloped, which is why the spider is always visibly travelling rather than jumping.</p>
+    <div style="margin-top:22px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <svg id="nl-map" viewBox="0 0 920 224" style="width:100%;height:auto;overflow:visible" aria-hidden="true"></svg>
+    </div>
+  </section>
+
+  <section style="padding:44px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">C / BEAT BY BEAT</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:16px;margin-top:22px">
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">01</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Nav — the origin</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">The spider sits on the logo at scroll 0. The thread's first segment is its drop off the nav pill.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">SITTING → RAPPEL</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">02</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Hero — descent</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">Walks down the lane past the typing headline. Four pillar cards hook onto the wire by row-aware stubs as it passes.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">WALKING</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b3" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">03</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Services — the build</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">Excursion to the orb: bridge, Y-frame, frame, radials, aux spiral, capture spiral over 45% of the beat. Then seven bugs strike and are wrapped into the seven service cards.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">SPINNING · 7 BUGS / 4 MOBILE</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b4" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">04</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Trusted — the wire</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">Rides a sloped wire above the marquee; logos hang from droppers and sway. Then it taps each stat tile so the figure and its bar fill.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">SCUTTLING → TAPPING</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b5" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">05</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Why — six branches</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">From the hub a pulse runs out along each branch, the card's accent edge powers on, and the pulse returns before the next branch fires.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">AT HUB · 6 PULSES</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b6" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">06</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Process — the spine</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">The timeline is the dragline. Six nodes light and their cards slide in as the spider rappels past; scrolling up walks it back up the same line.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">RAPPELLING · CORRIDOR-SOLVED SCALE</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b7" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">07</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Results — the network</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">One rail multiplies into a small connected network across the band; nodes light as each figure resolves.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">SCUTTLING · ROW-AWARE JOINS</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b8" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">08</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Portfolio — the lair</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">The spider holds the top hub while six project cards drop on hangers and swing to rest. Filter chips re-run layout and the hangers regenerate.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">AT HUB · SWING SETTLE</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b9" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">09</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Testimonials — beads</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">Review cards hang from a bead wire. The spider rides it and turns toward whichever card the dots make active.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">WALKING · HEADING TRACKS ACTIVE</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b10" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">10</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Tech — the circuit</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">The thread reads as a circuit board: one lane tap per chip row, and each card's pad solders as the pulse reaches its row.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">WALKING · 12 PADS, ROW GATED</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b11" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">11</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">FAQ — hanging</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">Hangs upside down in the lane beside the accordion, legs swaying. Opening a row draws a short thread across to that answer.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">HANGING · CLICK-DRIVEN</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b12" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">12</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">CTA — the landing</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">The end of the thread. A final rappel into the block; on landing a ripple spreads and the buttons and trust badges stagger in.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">RAPPELLING → LANDED</div>
+      </article>
+
+      <article style="padding:18px;border:1px solid #26262B;border-radius:18px;background:rgba(14,14,15,0.5)">
+        <div data-art="b13" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#E50914">13</span><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Footer — the climb</h3></div>
+        <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#A1A1AA">The handover is driven by the perch's position on screen, not by scroll distance: the travelling rig holds full opacity until its replacement has risen to mid-viewport, so there is never a frame without a spider. On arrival the end node tightens and a single ring pulses out along the copyright rule, then goes quiet. Clicking it — or the back-to-top button — climbs the whole thread and scrolls the page with it.</p>
+        <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#A1A1AA">SITTING · CLICK TO CLIMB</div>
+      </article>
+    </div>
+  </section>
+
+  <section id="nl-geo" style="padding:52px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">D / GEOMETRY RULES</div>
+    <p style="margin:14px 0 0;max-width:62ch;font-size:15px;line-height:1.7;color:#A1A1AA">Five invariants the layout re-solves on every resize. Each exists because violating it produced a specific visible defect.</p>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:22px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#E50914">LANE CONTAINS RIG</div><div style="margin-top:8px;font-family:Poppins,sans-serif;font-weight:600;font-size:15.5px">laneW and rigScale solve together</div></div>
+        <p style="margin:0;font-size:13.5px;line-height:1.65;color:#A1A1AA">Lane is <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">clamp((W−760)/2, 150, 230)</span>; scale is <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">(laneW/2 − 18)/95</span>, capped at 0.9. Deriving the lane from the viewport alone let the rig clip off-canvas.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#E50914">RAILS FROM MEASURED GUTTERS</div><div style="margin-top:8px;font-family:Poppins,sans-serif;font-weight:600;font-size:15.5px">Never a constant offset</div></div>
+        <p style="margin:0;font-size:13.5px;line-height:1.65;color:#A1A1AA">Each attachment is an L: lane → the midpoint of the real gutter above its own row → down into the card's top edge. Wrapped grids get a 64px row gap so that midpoint exists.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#E50914">TRAVEL COSTS SCROLL</div><div style="margin-top:8px;font-family:Poppins,sans-serif;font-weight:600;font-size:15.5px">dy ≥ dx × 0.34, cap 300</div></div>
+        <p style="margin:0;font-size:13.5px;line-height:1.65;color:#A1A1AA">Enforced inside the waypoint emitter, so no call site can add a flat traverse. Rails terminate mid-page rather than lane-to-lane, keeping dx — and the reserved band — small.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#E50914">TRACKS FROM CONTENT WIDTH</div><div style="margin-top:8px;font-family:Poppins,sans-serif;font-weight:600;font-size:15.5px">auto-fit, never fixed counts</div></div>
+        <p style="margin:0;font-size:13.5px;line-height:1.65;color:#A1A1AA">Every grid sizes off <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">W − 2×laneW</span>, so the centred column collapses 4-up and 6-up rows instead of crushing them.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#E50914">THE TIMELINE IS THE DRAGLINE</div><div style="margin-top:8px;font-family:Poppins,sans-serif;font-weight:600;font-size:15.5px">spineX = badge column centre</div></div>
+        <p style="margin:0;font-size:13.5px;line-height:1.65;color:#A1A1AA">The spine sits on the numbered nodes themselves, so the rig rappels straight down the timeline and each node lights as it passes. The stage renders behind content, so the spider passes behind the badges rather than needing a corridor beside them. Below 760 the timeline drops to two columns with the spine back in the lane.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:52px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">E / RESPONSIVE TABLE</div>
+    <div style="margin-top:22px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);overflow:hidden">
+      <div style="display:grid;grid-template-columns:118px 76px 84px 1.5fr;gap:14px;padding:14px 20px;border-bottom:1px solid #26262B;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:#A1A1AA">
+        <div>WIDTH</div><div>LANE</div><div>RIG</div><div>WHAT CHANGES</div>
+      </div>
+      <div style="display:grid;grid-template-columns:118px 76px 84px 1.5fr;gap:14px;padding:14px 20px;border-bottom:1px solid #1B1B1F;font-size:13px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">1440</div><div style="color:#A1A1AA">230</div><div style="color:#A1A1AA">0.90</div><div style="color:#A1A1AA">Full layout — 4-up pillars, 6-up chips, centre spine at 300px</div>
+      </div>
+      <div style="display:grid;grid-template-columns:118px 76px 84px 1.5fr;gap:14px;padding:14px 20px;border-bottom:1px solid #1B1B1F;font-size:13px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">1120–1439</div><div style="color:#A1A1AA">180–230</div><div style="color:#A1A1AA">0.75–0.90</div><div style="color:#A1A1AA">Grids reflow by auto-fit; spine column tracks content width</div>
+      </div>
+      <div style="display:grid;grid-template-columns:118px 76px 84px 1.5fr;gap:14px;padding:14px 20px;border-bottom:1px solid #1B1B1F;font-size:13px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">760–1119</div><div style="color:#A1A1AA">150–180</div><div style="color:#A1A1AA">0.60–0.75</div><div style="color:#A1A1AA">Nav links collapse to logo, WhatsApp and Get a Quote; timeline stacks if the corridor cannot hold the rig</div>
+      </div>
+      <div style="display:grid;grid-template-columns:118px 76px 84px 1.5fr;gap:14px;padding:14px 20px;font-size:13px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">&lt; 760 · 390</div><div style="color:#A1A1AA">112</div><div style="color:#A1A1AA">0.40</div><div style="color:#A1A1AA">Single left lane the whole way — no lane switch; content padded left only, 4 bugs, 1-up stacks, two-column timeline, 124px marquee tiles, no cursor effects</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-sheet" style="padding:52px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">F / COMPONENT SHEET</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px;margin-top:22px">
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">LOGO LOCKUP</div>
+        <div style="margin:14px 0;display:flex;align-items:center;gap:11px">
+          <svg width="32" height="32" viewBox="280 95 1440 1440" aria-hidden="true" style="overflow:visible;flex:0 0 auto"><g fill="none" stroke="#FF2323" stroke-width="40">
+            <path d="M925 545H1075V650H925Z"></path><path d="M905 650H1095L1185 740V990L1095 1080H905L815 990V740Z"></path><path d="M915 730H1085L1115 760V970L1085 1000H915L885 970V760Z"></path><path d="M940 775H1060V955H940Z"></path>
+            <g><path d="M815 740H460L360 640V290"></path><path d="M865 690L790 615H450V290"></path><path d="M815 830H490L360 960V1300"></path><path d="M815 935H500L450 985V1300"></path></g>
+            <g transform="translate(2000 0) scale(-1 1)"><path d="M815 740H460L360 640V290"></path><path d="M865 690L790 615H450V290"></path><path d="M815 830H490L360 960V1300"></path><path d="M815 935H500L450 985V1300"></path></g>
+          </g></svg>
+          <span style="width:1px;height:26px;background:#26262B"></span>
+          <span style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-family:Poppins,sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.24em;line-height:1">NESTURE</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.42em;line-height:1;color:#FF6B6B">LABS</span>
+          </span>
+        </div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Full mark from icon-dark.svg — chip plus eight mirrored circuit legs. Wordmark split behind a hairline divider.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">SERVICE CARD</div>
+        <div style="margin:14px 0">
+          <div style="padding:16px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+            <div style="display:flex;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#A1A1AA">01</span><span style="width:7px;height:7px;border:1px solid #E50914;border-radius:2px"></span></div>
+            <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#A1A1AA">Slow website →</div>
+            <div style="margin-top:6px;font-family:Poppins,sans-serif;font-weight:600;font-size:16px">Web Development</div>
+          </div>
+        </div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Problem kicker, solution title, 4–6 bullets. Its reveal is tied to its own bug's wrap, not to a section scroll.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">ATTACHMENT — L RAIL</div>
+        <div style="margin:14px 0">
+          <svg viewBox="0 0 240 100" style="width:100%;height:auto" aria-hidden="true">
+            <path d="M8 6 L8 94" stroke="#E50914" stroke-width="1" fill="none" opacity="0.3"></path>
+            <path d="M8 30 L124 30 L124 52" stroke="#FF2323" stroke-width="1.3" fill="none"></path>
+            <rect x="80" y="52" width="92" height="40" rx="6" fill="none" stroke="#26262B"></rect>
+            <circle cx="8" cy="30" r="2.6" fill="#FF2323"></circle>
+            <text x="132" y="26" fill="#A1A1AA" font-family="JetBrains Mono, monospace" font-size="8.5">gutter midpoint</text>
+            <text x="14" y="86" fill="#A1A1AA" font-family="JetBrains Mono, monospace" font-size="8.5">lane</text>
+          </svg>
+        </div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Lane → row gutter → card top edge. Row-aware by construction, so it cannot cross a card in the row above.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">IMAGE SLOT</div>
+        <div style="margin:14px 0"><div style="aspect-ratio:16/10;border-radius:10px;border:1px solid #26262B;background-color:#0E0E0F;background-image:repeating-linear-gradient(135deg,rgba(229,9,20,0.14) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;padding:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#A1A1AA">[PROJECT A — SCREENSHOT]</span></div></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Striped placeholder at 16:10, labelled with exactly what belongs there.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">BUTTONS</div>
+        <div style="margin:14px 0;display:flex;gap:10px;flex-wrap:wrap"><span style="display:flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;background:#E50914;color:#FFFFFF;font-size:13.5px;white-space:nowrap;box-shadow:0 0 24px rgba(229,9,20,0.45)">Start Your Project →</span><span style="display:flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #26262B;font-size:13.5px;white-space:nowrap">Watch Our Demo</span></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Primary glows, ghost sits on blur. 52px in place, never below 44px.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">PALETTE</div>
+        <div style="margin:14px 0;display:flex;gap:8px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#E50914"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">E50914</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#FF2323"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">FF2323</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#FF6B6B"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">FF6B6B</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#8B0000"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">8B0000</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#26262B"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">26262B</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#A1A1AA"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">A1A1AA</span></div>
+        </div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Two reds on near-black, grey ink for secondary copy, FF6B6B where small red text must reach AA.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">TYPE</div>
+        <div style="margin:14px 0;display:flex;flex-direction:column;gap:8px"><span style="font-family:Poppins,sans-serif;font-weight:700;font-size:24px;letter-spacing:-0.03em">Building Tomorrow's AI</span><span style="font-size:13.5px;color:#A1A1AA">Body copy sits at 15–17px, 1.65–1.7 line height.</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#A1A1AA">SECTION LABEL — 10.5PX / .22EM</span></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Poppins for headings, Inter for body, JetBrains Mono for labels and figures.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:52px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">G / MASCOT RIG</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:22px;align-items:start">
+      <div style="padding:22px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">SKELETON — UNCHANGED SINCE LOCK</div>
+        <svg id="nl-rigDiagram" viewBox="-190 -130 360 260" style="width:100%;height:auto;margin-top:14px;overflow:visible" aria-hidden="true"></svg>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">GAIT — STANCE VERSUS SWING</div>
+          <svg id="nl-gait" viewBox="0 0 320 152" style="width:100%;height:auto;margin-top:12px" aria-hidden="true"></svg>
+          <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;line-height:1.6;letter-spacing:.08em;color:#A1A1AA">RED = STANCE, FOOT PLANTED · GAP = SWING · ONE CYCLE = 96px OF PATH</div>
+        </div>
+        <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">RULES</div>
+          <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.6;color:#A1A1AA">
+            <li>Femur 44, tibia 46, stride 96 — identical to the approved v1 rig.</li>
+            <li>Feet plant in world space during stance; they never slide.</li>
+            <li>The body is the logo chip, redrawn from the source SVG paths.</li>
+            <li>Swing legs drop to 60% opacity and shorten toward the hip by 16%.</li>
+            <li>Heading eases 0.14 per frame, so direction changes never snap.</li>
+            <li>Scale and the moving flag ease at 0.12 per frame alongside heading, so no beat boundary pops the rig's size or snaps its feet between gait and stance.</li>
+            <li>Lane: left from nav to the services web, one crossing, then right to the end. Mobile stays left throughout.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const NS = 'http://www.w3.org/2000/svg';
+const el = (t, a, p) => { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); if (p) p.appendChild(n); return n; };
+
+const glyph = (x, y, s, core) => '<svg width="' + (20 * s) + '" height="' + (20 * s) + '" viewBox="-12 -12 24 24" style="position:absolute;left:' + x + '%;top:' + y + '%;transform:translate(-50%,-50%);overflow:visible" aria-hidden="true"><g fill="none" stroke="#FF2323" stroke-width="1.3"><rect x="-4" y="-5" width="8" height="10" rx="1"></rect><path d="M-4 -3l-6-4M-4 -1h-7M-4 2l-6 4M-4 4l-5 6M4 -3l6-4M4 -1h7M4 2l6 4M4 4l5 6"></path>' + (core ? '<rect x="-2" y="-2.5" width="4" height="5" style="animation:nlCore 2.4s ease-in-out infinite"></rect>' : '') + '</g></svg>';
+const silk = (d, o) => '<svg viewBox="0 0 320 180" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><path d="' + d + '" fill="none" stroke="#E50914" stroke-width="1" opacity="' + (o || 0.55) + '"></path></svg>';
+const bar = (x, y, w, hh, c) => '<div style="position:absolute;left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + hh + '%;border-radius:3px;background:' + c + '"></div>';
+const box = (x, y, w, hh, on) => '<div style="position:absolute;left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + hh + '%;border-radius:6px;border:1px solid ' + (on ? '#E50914' : '#26262B') + ';background:' + (on ? 'rgba(229,9,20,0.08)' : 'transparent') + '"></div>';
+const bug = (x, y) => '<svg width="13" height="13" viewBox="-9 -9 18 18" style="position:absolute;left:' + x + '%;top:' + y + '%;transform:translate(-50%,-50%)" aria-hidden="true"><g fill="none" stroke="#A1A1AA" stroke-width="1.1"><rect x="-5" y="-5" width="10" height="10"></rect><path d="M-5 -2h-4M-5 2h-4M5 -2h4M5 2h4M-2 -5v-4M2 -5v-4M-2 5v4M2 5v4"></path></g></svg>';
+const halo = (x, y, w, hh, r) => '<div style="position:absolute;left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + hh + '%;transform:translate(-50%,-50%);border:1px solid rgba(255,35,35,0.5);border-radius:' + r + '"></div>';
+const lane = o => '<div style="position:absolute;left:0;top:0;bottom:0;width:14%;border-right:1px dashed rgba(229,9,20,' + (o || 0.22) + ')"></div>';
+
+function orb(cx, cy, r, stage) {
+  let s = '<svg viewBox="0 0 320 180" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><g fill="none" stroke="#FF2323" stroke-width="0.9">';
+  if (stage >= 1) s += '<path d="M' + (cx - r * 1.5) + ' ' + (cy - r * 1.1) + 'L' + (cx + r * 1.5) + ' ' + (cy - r) + '" opacity="0.8"></path>';
+  if (stage >= 2) {
+    let f = 'M';
+    for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2 - Math.PI / 2; f += (i ? 'L' : '') + (cx + Math.cos(a) * r * 1.08).toFixed(1) + ' ' + (cy + Math.sin(a) * r * 1.08).toFixed(1); }
+    s += '<path d="' + f + 'Z" opacity="0.7"></path>';
+  }
+  if (stage >= 3) for (let i = 0; i < 10; i++) { const a = i / 10 * Math.PI * 2 - Math.PI / 2; s += '<path d="M' + cx + ' ' + cy + 'L' + (cx + Math.cos(a) * r).toFixed(1) + ' ' + (cy + Math.sin(a) * r).toFixed(1) + '" opacity="0.55"></path>'; }
+  if (stage >= 4) {
+    let c = 'M';
+    for (let i = 0; i <= 120; i++) { const t = i / 120, a = -Math.PI / 2 - t * Math.PI * 2 * 4, rr = r * (0.98 - t * 0.82); c += (i ? 'L' : '') + (cx + Math.cos(a) * rr).toFixed(1) + ' ' + (cy + Math.sin(a) * rr).toFixed(1); }
+    s += '<path d="' + c + '" opacity="0.75"></path>';
+  }
+  return s + '</g></svg>';
+}
+
+// frame artwork only — all copy lives in the template
+const ART = {
+  b1: bar(20, 12, 46, 13, '#26262B') + silk('M60 26 L60 52') + glyph(19, 14, 1, true),
+  b2: lane() + silk('M44 0 L44 180', 0.5) + bar(22, 24, 44, 9, '#3A3A42') + bar(22, 38, 30, 7, '#26262B') + box(22, 62, 17, 26, false) + box(42, 62, 17, 26, false) + box(62, 62, 17, 26, false) + box(82, 62, 15, 26, false) + glyph(14, 44, 1, false),
+  b3: lane() + orb(150, 88, 54, 4) + bug(88, 22) + bug(26, 70) + box(60, 74, 16, 20, true) + glyph(30, 44, 0.9, true),
+  b4: lane() + silk('M44 30 L300 54', 0.7) + box(24, 38, 16, 20, false) + box(44, 42, 16, 20, false) + box(64, 46, 16, 20, false) + bar(26, 72, 16, 12, '#26262B') + bar(48, 74, 16, 12, '#26262B') + glyph(60, 26, 0.9, false),
+  b5: lane() + silk('M44 40 L120 40 L120 64', 0.8) + silk('M44 40 L120 40 L120 88', 0.5) + box(38, 34, 26, 24, true) + box(38, 64, 26, 24, true) + box(70, 34, 26, 24, false) + glyph(14, 22, 0.9, true),
+  b6: lane(0.4) + silk('M96 0 L96 180', 0.85) + box(4, 16, 22, 26, true) + box(60, 48, 26, 26, true) + box(4, 80, 22, 18, false) + '<div style="position:absolute;left:30%;top:24%;width:9%;aspect-ratio:1;border-radius:50%;border:1px solid #E50914"></div><div style="position:absolute;left:30%;top:56%;width:9%;aspect-ratio:1;border-radius:50%;border:1px solid #26262B"></div>' + glyph(22, 44, 0.85, false),
+  b7: lane() + silk('M44 34 L290 52', 0.7) + box(20, 46, 17, 34, true) + box(40, 48, 17, 34, true) + box(60, 50, 17, 34, false) + box(80, 52, 17, 34, false) + glyph(52, 24, 0.85, false),
+  b8: lane() + silk('M44 26 L150 26', 0.6) + silk('M150 26 L100 60', 0.6) + silk('M150 26 L200 60', 0.6) + box(24, 36, 24, 44, true) + box(56, 36, 24, 44, true) + glyph(46, 15, 0.9, true),
+  b9: lane() + silk('M44 30 L300 42', 0.7) + box(22, 30, 22, 50, true) + box(50, 32, 22, 50, false) + box(76, 34, 22, 50, false) + glyph(34, 18, 0.85, true),
+  b10: lane() + silk('M44 34 L44 150', 0.6) + silk('M44 34 L290 34', 0.5) + silk('M44 96 L290 96', 0.5) + box(24, 22, 16, 26, true) + box(44, 22, 16, 26, true) + box(64, 22, 16, 26, false) + box(24, 58, 16, 26, false) + box(44, 58, 16, 26, false) + glyph(14, 20, 0.8, false),
+  b11: lane() + silk('M44 20 L44 60', 0.7) + box(22, 20, 74, 18, false) + box(22, 44, 74, 34, true) + silk('M44 62 L68 62', 0.9) + glyph(14, 34, 0.9, true),
+  b12: silk('M160 0 L160 62', 0.6) + box(26, 30, 48, 50, true) + halo(50, 58, 58, 64, '20px') + bar(34, 66, 14, 8, '#E50914') + bar(52, 66, 14, 8, '#3A3A42') + glyph(50, 36, 0.9, true),
+  b13: lane() + '<div style="position:absolute;left:0;right:0;top:46%;height:1px;background:#26262B"></div>' + bar(24, 58, 24, 8, '#26262B') + bar(58, 58, 20, 8, '#26262B') + glyph(14, 46, 0.62, true)
+};
+
+class Component extends DCLogic {
+  componentDidMount() { this.draw(); }
+  componentDidUpdate() { this.draw(); }
+
+  draw() {
+    document.querySelectorAll('[data-art]').forEach(slot => {
+      const art = ART[slot.getAttribute('data-art')];
+      if (art && slot.dataset.built !== '1') { slot.innerHTML = art; slot.dataset.built = '1'; }
+    });
+
+    const map = document.getElementById('nl-map');
+    if (map && map.dataset.built !== '1') {
+      map.dataset.built = '1';
+      map.textContent = '';
+      // The journey now runs the LEFT lane to the services web, crosses once,
+      // then works the RIGHT lane to the end. Hub excursions always depart the
+      // ACTIVE lane, so their labels sit on the far side from it.
+      const LX = 54, RX = 600, SWITCH = 78;
+      const beats = [
+        ['NAV', LX, 14, 0, 0], ['HERO', LX, 34, 0, 0], ['SERVICES', 250, 60, 1, 0],
+        ['TRUSTED', 392, 96, 1, 1], ['WHY', 392, 114, 1, 1], ['PROCESS', 316, 132, 1, 1],
+        ['RESULTS', 392, 150, 1, 1], ['PORTFOLIO', 392, 166, 1, 1], ['QUOTES', 392, 180, 1, 1],
+        ['TECH', 340, 194, 1, 1], ['FAQ', RX, 204, 0, 1], ['CTA', 392, 214, 1, 1], ['FOOTER', RX, 221, 0, 1]
+      ];
+      const spine = (x, y0, y1) => el('path', { d: 'M' + x + ' ' + y0 + 'L' + x + ' ' + y1, stroke: '#E50914', 'stroke-width': 1.2, fill: 'none', opacity: 0.28 }, map);
+      spine(LX, 8, SWITCH);
+      spine(RX, SWITCH, 221);
+      let prev = [LX, 8];
+      beats.forEach((b, i) => {
+        const x = b[1], y = b[2], out = b[3], right = b[4];
+        const laneX = right ? RX : LX;
+        if (i && right && !beats[i - 1][4]) {
+          // the one crossing, drawn as its own move
+          el('path', { d: 'M' + prev[0] + ' ' + prev[1] + 'L' + RX + ' ' + SWITCH, stroke: '#FF2323', 'stroke-width': 1.3, fill: 'none', opacity: 0.9, 'stroke-dasharray': '4 3' }, map);
+          el('text', { x: (LX + RX) / 2, y: SWITCH - 7, fill: '#FF2323', 'text-anchor': 'middle', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8.5, 'letter-spacing': '0.14em' }, map).textContent = 'LANE SWITCH';
+          prev = [RX, SWITCH];
+        }
+        if (out) {
+          el('path', { d: 'M' + prev[0] + ' ' + prev[1] + 'L' + x + ' ' + y, stroke: '#FF2323', 'stroke-width': 1.3, fill: 'none', opacity: 0.9 }, map);
+          el('path', { d: 'M' + x + ' ' + y + 'L' + laneX + ' ' + (y + 6), stroke: '#FF2323', 'stroke-width': 1.3, fill: 'none', opacity: 0.9 }, map);
+          prev = [laneX, y + 6];
+        } else {
+          el('path', { d: 'M' + prev[0] + ' ' + prev[1] + 'L' + x + ' ' + y, stroke: '#E50914', 'stroke-width': 1.2, fill: 'none', opacity: 0.5 }, map);
+          prev = [x, y];
+        }
+        el('circle', { cx: x, cy: y, r: out ? 3.4 : 2.6, fill: out ? '#FF2323' : '#0A0A0B', stroke: '#FF2323', 'stroke-width': 1.1 }, map);
+        // a hub sits away from its lane, so its label goes on the far side
+        const startSide = out ? !right : right;
+        el('text', {
+          x: startSide ? x + 10 : x - 10, y: y + 3.5,
+          'text-anchor': startSide ? 'start' : 'end',
+          fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 9, 'letter-spacing': '0.1em'
+        }, map).textContent = b[0];
+      });
+      // the ending: perch handover on the footer rule
+      el('circle', { cx: RX, cy: 221, r: 8, fill: 'none', stroke: '#FF2323', 'stroke-width': 1, opacity: 0.55 }, map);
+      el('text', { x: 700, y: 22, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 9, 'letter-spacing': '0.1em' }, map).textContent = 'DIM = LANE TRAVEL';
+      el('text', { x: 700, y: 38, fill: '#FF2323', 'font-family': 'JetBrains Mono, monospace', 'font-size': 9, 'letter-spacing': '0.1em' }, map).textContent = 'BRIGHT = HUB EXCURSION';
+      el('text', { x: 700, y: 54, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 9, 'letter-spacing': '0.1em' }, map).textContent = 'RING = PERCH HANDOVER';
+    }
+
+    const rg = document.getElementById('nl-rigDiagram');
+    if (rg && rg.dataset.built !== '1') {
+      rg.dataset.built = '1';
+      rg.textContent = '';
+      const HIPS = [[-26, -16], [-30, -4], [-30, 10], [-26, 22]];
+      const FEET = [[-70, -86], [-100, -38], [-97, 33], [-68, 78]];
+      const g = el('g', {}, rg);
+      let mark = null;
+      for (const side of [-1, 1]) {
+        HIPS.forEach((hip, i) => {
+          const hx = hip[0] * side, hy = hip[1], fx = FEET[i][0] * side, fy = FEET[i][1];
+          const kx = (hx + fx) / 2 + 16 * side, ky = (hy + fy) / 2 - 6;
+          const named = side === -1 && i === 1;
+          el('polyline', { points: hx + ',' + hy + ' ' + kx + ',' + ky + ' ' + fx + ',' + fy, fill: 'none', stroke: '#FF2323', 'stroke-width': named ? 2.4 : 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: named ? 1 : 0.26 }, g);
+          el('circle', { cx: kx, cy: ky, r: 2.8, fill: '#0A0A0B', stroke: '#FF2323', 'stroke-width': 1.2, opacity: named ? 1 : 0.26 }, g);
+          el('circle', { cx: fx, cy: fy, r: 2.8, fill: '#FF2323', opacity: named ? 1 : 0.26 }, g);
+          if (named) mark = { hx, hy, kx, ky, fx, fy };
+        });
+      }
+      const body = el('g', { transform: 'scale(0.06) translate(-1000,-812)' }, g);
+      const art = el('g', { fill: 'none', stroke: '#FF2323', 'stroke-width': 26 }, body);
+      ['M925 545H1075V650H925Z', 'M905 650H1095L1185 740V990L1095 1080H905L815 990V740Z', 'M915 730H1085L1115 760V970L1085 1000H915L885 970V760Z'].forEach(d => el('path', { d }, art));
+      el('path', { d: 'M940 775H1060V955H940Z', 'stroke-width': 34, style: 'animation:nlCore 2.4s ease-in-out infinite' }, art);
+
+      if (mark) {
+        const rows = [
+          ['HIP', mark.hx + 2, mark.hy - 2],
+          ['FEMUR 44', (mark.hx + mark.kx) / 2, (mark.hy + mark.ky) / 2 - 2],
+          ['TIBIA 46', (mark.kx + mark.fx) / 2, (mark.ky + mark.fy) / 2 - 2],
+          ['FOOT', mark.fx, mark.fy]
+        ];
+        rows.forEach((r, i) => {
+          const ty = -86 + i * 24;
+          el('path', { d: 'M138 ' + ty + 'L' + r[1].toFixed(1) + ' ' + r[2].toFixed(1), stroke: '#3A3A42', 'stroke-width': 0.8, fill: 'none' }, g);
+          el('circle', { cx: r[1].toFixed(1), cy: r[2].toFixed(1), r: 1.5, fill: '#3A3A42' }, g);
+          el('text', { x: 144, y: ty + 3, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8.5, 'letter-spacing': '0.06em' }, g).textContent = r[0];
+        });
+      }
+      el('text', { x: -10, y: 118, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8.5, 'text-anchor': 'middle', 'letter-spacing': '0.08em' }, g).textContent = '8 LEGS · 2-BONE IK · ONE LEG HIGHLIGHTED';
+    }
+
+    const gt = document.getElementById('nl-gait');
+    if (gt && gt.dataset.built !== '1') {
+      gt.dataset.built = '1';
+      gt.textContent = '';
+      const labels = ['L1', 'L2', 'L3', 'L4', 'R1', 'R2', 'R3', 'R4'];
+      const GROUP_B = [1, 3, 4, 6];
+      labels.forEach((lb, i) => {
+        const y = 14 + i * 16;
+        el('text', { x: 0, y: y + 4, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8.5 }, gt).textContent = lb;
+        el('rect', { x: 24, y: y - 4, width: 282, height: 9, fill: '#141416', rx: 2 }, gt);
+        const off = GROUP_B.indexOf(i) >= 0 ? 0.5 : 0;
+        for (let c = 0; c < 2; c++) {
+          const x0 = 24 + (c + off) * 141;
+          if (x0 < 306) el('rect', { x: x0, y: y - 4, width: Math.min(70, 306 - x0), height: 9, fill: '#E50914', rx: 2, opacity: 0.85 }, gt);
+        }
+      });
+      [0, 1, 2].forEach(i => {
+        const x = 24 + i * 141;
+        if (x <= 306) {
+          el('path', { d: 'M' + x + ' 6L' + x + ' 142', stroke: '#26262B', 'stroke-width': 0.8, fill: 'none' }, gt);
+          const last = i === 2;
+          el('text', { x: last ? x - 3 : x + 3, y: 150, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8, 'text-anchor': last ? 'end' : 'start' }, gt).textContent = i === 0 ? '0' : (i === 1 ? '96px' : '192px');
+        }
+      });
+    }
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
