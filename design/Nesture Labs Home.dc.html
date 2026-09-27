@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html { background:#050505; }
+  body { margin:0; background:#050505; color:#F5F5F5; font-family:Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#E50914; text-decoration:none; }
+  a:hover { color:#FF2323; }
+  @keyframes nlWordIn { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:none; } }
+  @keyframes nlTrace { from { stroke-dashoffset:var(--nlL); } to { stroke-dashoffset:0; } }
+  @keyframes nlLoaderOut { to { opacity:0; visibility:hidden; } }
+  @keyframes nlCore { 0%,100% { opacity:.45; } 50% { opacity:1; } }
+  @keyframes nlDash { to { stroke-dashoffset:-240; } }
+  @keyframes nlDrop { 0% { transform:translateY(-6px); } 50% { transform:translateY(10px); } 100% { transform:translateY(-6px); } }
+  @keyframes nlGlitch { 0%,92%,100% { transform:translate(0,0); } 94% { transform:translate(1.5px,-1px); } 96% { transform:translate(-1.5px,1px); } 98% { transform:translate(.5px,0); } }
+  @keyframes nlPulseRing { 0% { transform:scale(1); opacity:.5; } 70% { transform:scale(1.9); opacity:0; } 100% { transform:scale(1.9); opacity:0; } }
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; } }
+</style>
+</helmet>
+<div id="nl-root" style="position:relative;background:#050505;color:#F5F5F5">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <filter id="nlGlowS" x="-80%" y="-80%" width="260%" height="260%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="2.6" flood-color="#FF2323" flood-opacity="0.9" result="g1"></feDropShadow>
+      <feDropShadow in="g1" dx="0" dy="0" stdDeviation="6" flood-color="#E50914" flood-opacity="0.55"></feDropShadow>
+    </filter>
+    <filter id="nlGlowW" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#E50914" flood-opacity="0.75"></feDropShadow>
+    </filter>
+  </defs></svg>
+
+  <div id="nl-loader" style="position:fixed;inset:0;z-index:120;background:#050505;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .45s ease-in,visibility .45s;animation:nlLoaderOut .45s ease-in 1.1s forwards">
+    <svg id="nl-loadmark" width="132" height="132" viewBox="0 0 220 220" aria-hidden="true" style="overflow:visible"></svg>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.34em;color:#71717A">NESTURE LABS</div>
+  </div>
+
+  <div id="nl-cursor" style="position:fixed;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#FF2323;box-shadow:0 0 12px #E50914;z-index:110;pointer-events:none;opacity:0"></div>
+  <svg id="nl-trail" style="position:fixed;inset:0;z-index:109;pointer-events:none;opacity:0" aria-hidden="true"><path id="nl-trailpath" fill="none" stroke="#E50914" stroke-width="1.2" stroke-linecap="round" opacity="0.55"></path></svg>
+
+  <header id="nl-nav" style="position:fixed;top:18px;left:0;right:0;z-index:100;display:flex;justify-content:center;pointer-events:none;transition:top .3s ease">
+    <nav id="nl-navbar" style="pointer-events:auto;display:flex;align-items:center;gap:34px;padding:10px 12px 10px 18px;background:rgba(14,14,15,0.66);backdrop-filter:blur(16px);border:1px solid #26262B;border-radius:999px;transition:padding .3s ease,background .3s ease">
+      <a href="#nl-hero" style="display:flex;align-items:center;gap:10px;color:#F5F5F5">
+        <svg width="26" height="26" viewBox="760 480 480 660" aria-hidden="true" style="overflow:visible"><g fill="none" stroke="#FF2323" stroke-width="30" filter="url(#nlGlowW)">
+          <path d="M925 545H1075V650H925Z"></path>
+          <path d="M905 650H1095L1185 740V990L1095 1080H905L815 990V740Z"></path>
+          <path d="M940 775H1060V955H940Z"></path>
+        </g></svg>
+        <span style="font-family:Poppins,sans-serif;font-weight:700;font-size:13px;letter-spacing:.2em">NESTURE LABS</span>
+      </a>
+      <div id="nl-navlinks" style="display:flex;align-items:center;gap:4px">
+        <a href="#nl-hero" style="position:relative;display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;font-size:13px;color:#F5F5F5;white-space:nowrap" style-hover="background:rgba(35,35,40,0.7)"><span style="width:5px;height:5px;border-radius:50%;background:#E50914;box-shadow:0 0 8px #E50914"></span>Home</a>
+        <a href="#nl-about" style="padding:9px 14px;border-radius:999px;font-size:13px;color:#A1A1AA;white-space:nowrap" style-hover="color:#F5F5F5;background:rgba(35,35,40,0.7)">How we think</a>
+        <a href="#nl-problems" style="padding:9px 14px;border-radius:999px;font-size:13px;color:#A1A1AA;white-space:nowrap" style-hover="color:#F5F5F5;background:rgba(35,35,40,0.7)">Problems</a>
+        <a href="#nl-services" style="padding:9px 14px;border-radius:999px;font-size:13px;color:#A1A1AA;white-space:nowrap" style-hover="color:#F5F5F5;background:rgba(35,35,40,0.7)">Services</a>
+        <a href="#nl-work" style="padding:9px 14px;border-radius:999px;font-size:13px;color:#A1A1AA;white-space:nowrap" style-hover="color:#F5F5F5;background:rgba(35,35,40,0.7)">Work</a>
+        <a href="#nl-faq" style="padding:9px 14px;border-radius:999px;font-size:13px;color:#A1A1AA;white-space:nowrap" style-hover="color:#F5F5F5;background:rgba(35,35,40,0.7)">FAQ</a>
+      </div>
+      <a href="#nl-services" style="padding:11px 20px;border-radius:999px;background:#E50914;color:#FFFFFF;font-size:13px;font-weight:500;white-space:nowrap;box-shadow:0 0 22px rgba(229,9,20,0.45)" style-hover="background:#FF2323;box-shadow:0 0 30px rgba(255,35,35,0.6)">Get a Quote</a>
+    </nav>
+  </header>
+
+  <section id="nl-hero" data-screen-label="01 Hero" style="position:relative;height:220vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(60% 55% at 72% 46%, rgba(139,0,0,0.22), rgba(5,5,5,0) 70%)"></div>
+      <svg id="nl-heroStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <path id="nl-dragline" fill="none" stroke="#E50914" stroke-width="1" opacity="0.5"></path>
+        <g id="nl-heroRig"></g>
+      </svg>
+      <div id="nl-heroCol" style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;justify-content:center">
+        <div style="display:flex;align-items:center;gap:10px;width:fit-content;padding:8px 16px;border:1px solid #26262B;border-radius:999px;background:rgba(14,14,15,0.6);backdrop-filter:blur(16px);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;color:#A1A1AA;white-space:nowrap">
+          <span style="width:6px;height:6px;border-radius:50%;background:#E50914;box-shadow:0 0 10px #E50914"></span>AI-FIRST PRODUCT STUDIO — COLOMBO, WORLDWIDE
+        </div>
+        <h1 id="nl-h1" style="margin:26px 0 0;max-width:15ch;font-family:Poppins,sans-serif;font-weight:700;font-size:clamp(56px,6.4vw,104px);line-height:0.96;letter-spacing:-0.035em;text-wrap:balance">
+          <span style="display:inline-block">We</span> <span style="display:inline-block">Build</span> <span style="display:inline-block">What</span> <span style="display:inline-block;color:#E50914;text-shadow:0 0 38px rgba(229,9,20,0.55)">Scales.</span>
+        </h1>
+        <p style="margin:26px 0 0;max-width:46ch;font-size:17px;line-height:1.65;color:#A1A1AA;text-wrap:pretty">Websites, mobile apps and AI agents engineered for growth — designed, built and deployed by one team.</p>
+        <div style="display:flex;gap:14px;margin-top:38px">
+          <a href="#nl-services" style="display:flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;border:1px solid #26262B;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);color:#F5F5F5;font-size:14.5px;font-weight:500;white-space:nowrap;transition:transform .18s ease,border-color .18s ease" style-hover="transform:translateY(-2px);border-color:#E50914;color:#F5F5F5">Explore Services</a>
+          <a href="#nl-services" style="display:flex;align-items:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;background:#E50914;color:#FFFFFF;font-size:14.5px;font-weight:500;white-space:nowrap;box-shadow:0 0 34px rgba(229,9,20,0.5);transition:transform .18s ease,box-shadow .18s ease" style-hover="transform:translateY(-2px);background:#FF2323;box-shadow:0 0 46px rgba(255,35,35,0.66);color:#FFFFFF">Get a Quote →</a>
+        </div>
+        <div id="nl-stats" style="display:flex;gap:16px;margin-top:64px;max-width:780px;flex-wrap:nowrap">
+          <div style="flex:1;min-width:0;padding:20px 22px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#71717A">PROJECTS SHIPPED</div>
+            <div style="margin-top:14px;font-family:Poppins,sans-serif;font-weight:700;font-size:34px;letter-spacing:-0.03em">[X+]</div>
+          </div>
+          <div style="flex:1;min-width:0;padding:20px 22px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#71717A">CLIENT RETENTION</div>
+            <div style="margin-top:14px;font-family:Poppins,sans-serif;font-weight:700;font-size:34px;letter-spacing:-0.03em">[X%]</div>
+          </div>
+          <div style="flex:1;min-width:0;padding:20px 22px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#71717A">COUNTRIES SERVED</div>
+            <div style="margin-top:14px;font-family:Poppins,sans-serif;font-weight:700;font-size:34px;letter-spacing:-0.03em">[X]</div>
+          </div>
+        </div>
+      </div>
+      <div id="nl-scrollcue" style="position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .3s ease">
+        <svg width="20" height="54" viewBox="0 0 20 54" aria-hidden="true"><line x1="10" y1="0" x2="10" y2="34" stroke="#E50914" stroke-width="1" opacity="0.6"></line><g style="animation:nlDrop 2.6s ease-in-out infinite"><g fill="none" stroke="#FF2323" stroke-width="1.2"><path d="M6 38h8v6H6z"></path><path d="M4 44h12v6H4z"></path><path d="M4 46L1 50M16 46l3 4M4 42L0 40M16 42l4-2"></path></g></g></svg>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:#71717A">SCROLL TO EXPLORE</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-about" data-screen-label="02 Nest and web" style="position:relative;height:340vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+      <svg id="nl-webStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <g id="nl-web"></g>
+        <g id="nl-webRig"></g>
+      </svg>
+      <div id="nl-aboutCol" style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;justify-content:center">
+        <div style="max-width:30ch">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">02 / HOW WE THINK</div>
+          <h2 style="margin:22px 0 0;font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(38px,3.6vw,56px);line-height:1.04;letter-spacing:-0.03em;text-wrap:balance">Every product starts with a strong structure.</h2>
+          <p style="margin:22px 0 0;max-width:40ch;font-size:16px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">We build the frame before the surface: the anchor points, then the spokes, then the tight spiral that holds it all under load.</p>
+          <div id="nl-radialLabels" style="display:flex;flex-direction:column;gap:12px;margin-top:38px">
+            <div style="display:flex;align-items:center;gap:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">01</span><span style="width:28px;height:1px;background:#E50914"></span><span style="font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Strategy</span></div>
+            <div style="display:flex;align-items:center;gap:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">02</span><span style="width:28px;height:1px;background:#E50914"></span><span style="font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Architecture</span></div>
+            <div style="display:flex;align-items:center;gap:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">03</span><span style="width:28px;height:1px;background:#E50914"></span><span style="font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Design</span></div>
+            <div style="display:flex;align-items:center;gap:14px"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">04</span><span style="width:28px;height:1px;background:#E50914"></span><span style="font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Engineering</span></div>
+          </div>
+          <div id="nl-webStep" style="margin-top:34px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:#71717A">STEP 1 / 6 — BRIDGE THREAD</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-problems" data-screen-label="03 Catching bugs" style="position:relative;height:320vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+      <svg id="nl-bugStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <g id="nl-web2"></g>
+        <g id="nl-bugs"></g>
+        <g id="nl-bugRig"></g>
+      </svg>
+      <div id="nl-probCol" style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;justify-content:center">
+        <div style="max-width:32ch">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">03 / PROBLEMS WE SOLVE</div>
+          <h2 style="margin:22px 0 0;font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(38px,3.6vw,56px);line-height:1.04;letter-spacing:-0.03em;text-wrap:balance">We catch the problems that slow your business down.</h2>
+          <div style="margin-top:32px;padding:18px 22px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);width:fit-content">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#71717A">PROBLEMS CAUGHT</div>
+            <div style="margin-top:10px;display:flex;align-items:baseline;gap:8px;font-family:'JetBrains Mono',monospace"><span id="nl-counter" style="font-size:38px;color:#F5F5F5">0</span><span id="nl-total" style="font-size:18px;color:#71717A">/ 8</span></div>
+          </div>
+          <ul id="nl-probs" style="display:flex;flex-wrap:wrap;gap:8px;margin:30px 0 0;padding:0;list-style:none;max-width:38ch">
+            <li style="padding:8px 14px;border:1px solid #26262B;border-radius:999px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#71717A;transition:color .25s ease,border-color .25s ease">Slow website</li>
+            <li style="padding:8px 14px;border:1px solid #26262B;border-radius:999px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#71717A;transition:color .25s ease,border-color .25s ease">Broken app</li>
+            <li style="padding:8px 14px;border:1px solid #26262B;border-radius:999px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#71717A;transition:color .25s ease,border-color .25s ease">Manual work</li>
+            <li style="padding:8px 14px;border:1px solid #26262B;border-radius:999px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#71717A;transition:color .25s ease,border-color .25s ease">Messy data</li>
+            <li style="padding:8px 14px;border:1px solid #26262B;border-radius:999px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#71717A;transition:color .25s ease,border-color .25s ease">Downtime</li>
+            <li style="padding:8px 14px;border:1px solid #26262B;border-radius:999px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#71717A;transition:color .25s ease,border-color .25s ease">Security holes</li>
+            <li style="padding:8px 14px;border:1px solid #26262B;border-radius:999px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#71717A;transition:color .25s ease,border-color .25s ease">Poor SEO</li>
+            <li style="padding:8px 14px;border:1px solid #26262B;border-radius:999px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px;color:#71717A;transition:color .25s ease,border-color .25s ease">No leads</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-services" data-screen-label="04 Binding bugs into services" style="position:relative;height:360vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center">
+      <div style="position:absolute;inset:0;background:radial-gradient(55% 45% at 50% 40%, rgba(139,0,0,0.16), rgba(5,5,5,0) 72%)"></div>
+      <div id="nl-svcInner" style="position:relative;width:100%;max-width:1320px;margin:0 auto;padding:60px clamp(20px,4.5vw,60px) 0;transform-origin:50% 50%">
+        <div id="nl-svcHead" style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">04 / OUR SOLUTIONS</div>
+            <h2 style="margin:18px 0 0;max-width:24ch;font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(34px,3vw,48px);line-height:1.05;letter-spacing:-0.03em">Every problem, wrapped and turned into a service.</h2>
+          </div>
+          <p style="max-width:34ch;margin:0;font-size:15px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">Eight disciplines, one team. We bind the problem, then ship the thing that replaces it.</p>
+        </div>
+        <div style="position:relative;margin-top:34px">
+          <div id="nl-cocoons" style="position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;gap:18px;pointer-events:none">
+            <div style="display:flex;align-items:center;justify-content:center"></div>
+            <div style="display:flex;align-items:center;justify-content:center"></div>
+            <div style="display:flex;align-items:center;justify-content:center"></div>
+            <div style="display:flex;align-items:center;justify-content:center"></div>
+            <div style="display:flex;align-items:center;justify-content:center"></div>
+            <div style="display:flex;align-items:center;justify-content:center"></div>
+            <div style="display:flex;align-items:center;justify-content:center"></div>
+            <div style="display:flex;align-items:center;justify-content:center"></div>
+          </div>
+          <div id="nl-cards" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px">
+            <div style="opacity:1">
+              <article style="height:100%;display:flex;flex-direction:column;gap:10px;padding:18px 18px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease" style-hover="transform:translateY(-4px);border-color:#E50914;box-shadow:0 0 0 1px rgba(229,9,20,0.35),0 18px 40px rgba(0,0,0,0.6)">
+                <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">01</span><span style="width:8px;height:8px;border:1px solid #E50914;border-radius:2px"></span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">Slow website →</div>
+                <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;letter-spacing:-0.02em">Web Development</h3>
+                <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Fast, accessible sites that load in under a second.</p>
+                <div data-tags style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Next.js</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Laravel</span></div>
+                <a href="#nl-services" style="font-size:12.5px;color:#E50914" style-hover="color:#FF2323">Learn more →</a>
+              </article>
+            </div>
+            <div style="opacity:1">
+              <article style="height:100%;display:flex;flex-direction:column;gap:10px;padding:18px 18px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease" style-hover="transform:translateY(-4px);border-color:#E50914;box-shadow:0 0 0 1px rgba(229,9,20,0.35),0 18px 40px rgba(0,0,0,0.6)">
+                <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">02</span><span style="width:8px;height:8px;border:1px solid #E50914;border-radius:2px"></span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">Broken app →</div>
+                <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;letter-spacing:-0.02em">Mobile Apps</h3>
+                <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">One codebase, two stores, releases that do not break.</p>
+                <div data-tags style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Flutter</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">React Native</span></div>
+                <a href="#nl-services" style="font-size:12.5px;color:#E50914" style-hover="color:#FF2323">Learn more →</a>
+              </article>
+            </div>
+            <div style="opacity:1">
+              <article style="height:100%;display:flex;flex-direction:column;gap:10px;padding:18px 18px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease" style-hover="transform:translateY(-4px);border-color:#E50914;box-shadow:0 0 0 1px rgba(229,9,20,0.35),0 18px 40px rgba(0,0,0,0.6)">
+                <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">03</span><span style="width:8px;height:8px;border:1px solid #E50914;border-radius:2px"></span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">Manual work →</div>
+                <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;letter-spacing:-0.02em">AI Solutions &amp; Agents</h3>
+                <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Agents that handle the work your team should never touch again.</p>
+                <div data-tags style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">LLM</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">RAG</span></div>
+                <a href="#nl-services" style="font-size:12.5px;color:#E50914" style-hover="color:#FF2323">Learn more →</a>
+              </article>
+            </div>
+            <div style="opacity:1">
+              <article style="height:100%;display:flex;flex-direction:column;gap:10px;padding:18px 18px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease" style-hover="transform:translateY(-4px);border-color:#E50914;box-shadow:0 0 0 1px rgba(229,9,20,0.35),0 18px 40px rgba(0,0,0,0.6)">
+                <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">04</span><span style="width:8px;height:8px;border:1px solid #E50914;border-radius:2px"></span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">Messy data →</div>
+                <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;letter-spacing:-0.02em">UI/UX Design</h3>
+                <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Interfaces that make complex data obvious on first use.</p>
+                <div data-tags style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Figma</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Design systems</span></div>
+                <a href="#nl-services" style="font-size:12.5px;color:#E50914" style-hover="color:#FF2323">Learn more →</a>
+              </article>
+            </div>
+            <div style="opacity:1">
+              <article style="height:100%;display:flex;flex-direction:column;gap:10px;padding:18px 18px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease" style-hover="transform:translateY(-4px);border-color:#E50914;box-shadow:0 0 0 1px rgba(229,9,20,0.35),0 18px 40px rgba(0,0,0,0.6)">
+                <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">05</span><span style="width:8px;height:8px;border:1px solid #E50914;border-radius:2px"></span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">Downtime →</div>
+                <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;letter-spacing:-0.02em">Cloud &amp; Hosting</h3>
+                <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Infrastructure sized to your traffic, with quiet failover.</p>
+                <div data-tags style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">AWS</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Cloudflare</span></div>
+                <a href="#nl-services" style="font-size:12.5px;color:#E50914" style-hover="color:#FF2323">Learn more →</a>
+              </article>
+            </div>
+            <div style="opacity:1">
+              <article style="height:100%;display:flex;flex-direction:column;gap:10px;padding:18px 18px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease" style-hover="transform:translateY(-4px);border-color:#E50914;box-shadow:0 0 0 1px rgba(229,9,20,0.35),0 18px 40px rgba(0,0,0,0.6)">
+                <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">06</span><span style="width:8px;height:8px;border:1px solid #E50914;border-radius:2px"></span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">Security holes →</div>
+                <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;letter-spacing:-0.02em">DevOps</h3>
+                <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Pipelines, monitoring and patching so shipping is routine.</p>
+                <div data-tags style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Docker</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">CI/CD</span></div>
+                <a href="#nl-services" style="font-size:12.5px;color:#E50914" style-hover="color:#FF2323">Learn more →</a>
+              </article>
+            </div>
+            <div style="opacity:1">
+              <article style="height:100%;display:flex;flex-direction:column;gap:10px;padding:18px 18px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease" style-hover="transform:translateY(-4px);border-color:#E50914;box-shadow:0 0 0 1px rgba(229,9,20,0.35),0 18px 40px rgba(0,0,0,0.6)">
+                <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">07</span><span style="width:8px;height:8px;border:1px solid #E50914;border-radius:2px"></span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">Poor SEO →</div>
+                <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;letter-spacing:-0.02em">SEO &amp; Content</h3>
+                <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Technical fixes plus content that earns the click.</p>
+                <div data-tags style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Core Web Vitals</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Schema</span></div>
+                <a href="#nl-services" style="font-size:12.5px;color:#E50914" style-hover="color:#FF2323">Learn more →</a>
+              </article>
+            </div>
+            <div style="opacity:1">
+              <article style="height:100%;display:flex;flex-direction:column;gap:10px;padding:18px 18px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease" style-hover="transform:translateY(-4px);border-color:#E50914;box-shadow:0 0 0 1px rgba(229,9,20,0.35),0 18px 40px rgba(0,0,0,0.6)">
+                <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">08</span><span style="width:8px;height:8px;border:1px solid #E50914;border-radius:2px"></span></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#71717A">No leads →</div>
+                <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;letter-spacing:-0.02em">Social Media Marketing</h3>
+                <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Campaigns measured in booked calls, not likes.</p>
+                <div data-tags style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Paid social</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A">Creative</span></div>
+                <a href="#nl-services" style="font-size:12.5px;color:#E50914" style-hover="color:#FF2323">Learn more →</a>
+              </article>
+            </div>
+          </div>
+          <svg id="nl-wrapStage" style="position:absolute;inset:-60px;width:calc(100% + 120px);height:calc(100% + 120px);pointer-events:none;overflow:visible" aria-hidden="true"><g id="nl-wrapRig"></g></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-process" data-screen-label="05 Process" style="position:relative;height:300vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+      <svg id="nl-procStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <path id="nl-procThread" fill="none" stroke="#FF2323" stroke-width="1.1" opacity="0.85"></path>
+        <g id="nl-procRig"></g>
+      </svg>
+      <div id="nl-procCol" style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">05 / HOW WE WORK</div>
+        <h2 style="margin:20px 0 0;max-width:22ch;font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(38px,3.6vw,56px);line-height:1.04;letter-spacing:-0.03em">Five steps, no surprises.</h2>
+        <p style="margin:18px 0 0;max-width:44ch;font-size:16px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">One thread runs from the first call to the last deploy. You always know which step you are on.</p>
+        <div id="nl-steps" style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:64px">
+          <div style="display:flex;flex-direction:column;gap:10px;padding:20px 18px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:border-color .3s ease,transform .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">01</span><span style="width:7px;height:7px;border-radius:50%;background:#26262B;transition:background .3s ease,box-shadow .3s ease"></span></div>
+            <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Discover</h3>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">We map the business before the build — goals, constraints, what already works.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding:20px 18px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:border-color .3s ease,transform .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">02</span><span style="width:7px;height:7px;border-radius:50%;background:#26262B;transition:background .3s ease,box-shadow .3s ease"></span></div>
+            <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Architect</h3>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Data model, integrations and infrastructure decided on paper, not mid-sprint.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding:20px 18px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:border-color .3s ease,transform .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">03</span><span style="width:7px;height:7px;border-radius:50%;background:#26262B;transition:background .3s ease,box-shadow .3s ease"></span></div>
+            <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Design</h3>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Flows and screens reviewed with you in the browser, not as flat pictures.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding:20px 18px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:border-color .3s ease,transform .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">04</span><span style="width:7px;height:7px;border-radius:50%;background:#26262B;transition:background .3s ease,box-shadow .3s ease"></span></div>
+            <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Build</h3>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Two-week increments you can open, click and comment on as they land.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding:20px 18px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:border-color .3s ease,transform .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">05</span><span style="width:7px;height:7px;border-radius:50%;background:#26262B;transition:background .3s ease,box-shadow .3s ease"></span></div>
+            <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:17px;letter-spacing:-0.02em">Scale</h3>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Monitoring, iteration and support once real traffic starts arriving.</p>
+          </div>
+        </div>
+        <div id="nl-procStep" style="margin-top:28px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:#71717A">STEP 01 — DISCOVER</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-work" data-screen-label="06 Selected work" style="position:relative;height:320vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+      <svg id="nl-workStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <path id="nl-workLine" fill="none" stroke="#E50914" stroke-width="1" opacity="0.5"></path>
+        <g id="nl-workRig"></g>
+      </svg>
+      <div id="nl-workCol" style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;justify-content:center">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">06 / SELECTED WORK</div>
+            <h2 style="margin:20px 0 0;max-width:20ch;font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(34px,3vw,48px);line-height:1.05;letter-spacing:-0.03em">Built to carry weight.</h2>
+          </div>
+          <div id="nl-workCount" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;color:#71717A;white-space:nowrap">01 / 03</div>
+        </div>
+        <div id="nl-projects" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:40px">
+          <article style="opacity:0;transform:translateY(30px);display:flex;flex-direction:column;gap:14px;padding:16px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:border-color .2s ease" style-hover="border-color:#E50914">
+            <div data-slot style="aspect-ratio:16/10;border-radius:12px;border:1px solid #26262B;background-color:#0E0E0F;background-image:repeating-linear-gradient(135deg,rgba(229,9,20,0.14) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;padding:12px"><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#A1A1AA">[PROJECT A — SCREENSHOT]</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:18px;letter-spacing:-0.02em">Project A</h3><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[SECTOR]</span></div>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">[One line on the problem and what shipped.]</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[STACK]</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[RESULT]</span></div>
+          </article>
+          <article style="opacity:0;transform:translateY(30px);display:flex;flex-direction:column;gap:14px;padding:16px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:border-color .2s ease" style-hover="border-color:#E50914">
+            <div data-slot style="aspect-ratio:16/10;border-radius:12px;border:1px solid #26262B;background-color:#0E0E0F;background-image:repeating-linear-gradient(135deg,rgba(229,9,20,0.14) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;padding:12px"><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#A1A1AA">[PROJECT B — SCREENSHOT]</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:18px;letter-spacing:-0.02em">Project B</h3><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[SECTOR]</span></div>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">[One line on the problem and what shipped.]</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[STACK]</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[RESULT]</span></div>
+          </article>
+          <article style="opacity:0;transform:translateY(30px);display:flex;flex-direction:column;gap:14px;padding:16px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);transition:border-color .2s ease" style-hover="border-color:#E50914">
+            <div data-slot style="aspect-ratio:16/10;border-radius:12px;border:1px solid #26262B;background-color:#0E0E0F;background-image:repeating-linear-gradient(135deg,rgba(229,9,20,0.14) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;padding:12px"><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#A1A1AA">[PROJECT C — SCREENSHOT]</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:18px;letter-spacing:-0.02em">Project C</h3><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[SECTOR]</span></div>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">[One line on the problem and what shipped.]</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[STACK]</span><span style="padding:4px 9px;border:1px solid #26262B;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#71717A;white-space:nowrap">[RESULT]</span></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-voices" data-screen-label="07 Client voices" style="position:relative;height:280vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+      <svg id="nl-voiceStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <path id="nl-voiceThread" fill="none" stroke="#E50914" stroke-width="1" opacity="0.55"></path>
+        <g id="nl-voiceRig"></g>
+      </svg>
+      <div id="nl-voiceCol" style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">07 / CLIENT VOICES</div>
+        <h2 style="margin:20px 0 0;max-width:22ch;font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(34px,3vw,48px);line-height:1.05;letter-spacing:-0.03em">What it is like to work with us.</h2>
+        <div id="nl-quotes" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:44px">
+          <figure style="opacity:0;transform:translateY(24px);margin:0;display:flex;flex-direction:column;gap:18px;padding:24px 22px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:28px;line-height:1;color:#E50914">&ldquo;</div>
+            <blockquote style="margin:0;font-size:15px;line-height:1.65;color:#F5F5F5;text-wrap:pretty">[Testimonial quote placeholder — two or three sentences in the client's own words about the engagement and the result.]</blockquote>
+            <figcaption style="display:flex;align-items:center;gap:12px;margin-top:auto">
+              <div data-avatar style="width:38px;height:38px;flex:0 0 38px;border-radius:50%;border:1px solid #26262B;background-color:#0E0E0F;background-image:repeating-linear-gradient(135deg,rgba(229,9,20,0.14) 0 6px,transparent 6px 12px)"></div>
+              <div><div style="font-size:13.5px;font-weight:500">[Client name]</div><div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#71717A">[ROLE, COMPANY]</div></div>
+            </figcaption>
+          </figure>
+          <figure style="opacity:0;transform:translateY(24px);margin:0;display:flex;flex-direction:column;gap:18px;padding:24px 22px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:28px;line-height:1;color:#E50914">&ldquo;</div>
+            <blockquote style="margin:0;font-size:15px;line-height:1.65;color:#F5F5F5;text-wrap:pretty">[Testimonial quote placeholder — what changed for the business after launch.]</blockquote>
+            <figcaption style="display:flex;align-items:center;gap:12px;margin-top:auto">
+              <div data-avatar style="width:38px;height:38px;flex:0 0 38px;border-radius:50%;border:1px solid #26262B;background-color:#0E0E0F;background-image:repeating-linear-gradient(135deg,rgba(229,9,20,0.14) 0 6px,transparent 6px 12px)"></div>
+              <div><div style="font-size:13.5px;font-weight:500">[Client name]</div><div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#71717A">[ROLE, COMPANY]</div></div>
+            </figcaption>
+          </figure>
+          <figure style="opacity:0;transform:translateY(24px);margin:0;display:flex;flex-direction:column;gap:18px;padding:24px 22px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:28px;line-height:1;color:#E50914">&ldquo;</div>
+            <blockquote style="margin:0;font-size:15px;line-height:1.65;color:#F5F5F5;text-wrap:pretty">[Testimonial quote placeholder — how the team handled scope, comms and handover.]</blockquote>
+            <figcaption style="display:flex;align-items:center;gap:12px;margin-top:auto">
+              <div data-avatar style="width:38px;height:38px;flex:0 0 38px;border-radius:50%;border:1px solid #26262B;background-color:#0E0E0F;background-image:repeating-linear-gradient(135deg,rgba(229,9,20,0.14) 0 6px,transparent 6px 12px)"></div>
+              <div><div style="font-size:13.5px;font-weight:500">[Client name]</div><div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#71717A">[ROLE, COMPANY]</div></div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-why" data-screen-label="08 Why Nesture" style="position:relative;height:280vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(50% 45% at 50% 50%, rgba(139,0,0,0.16), rgba(5,5,5,0) 72%)"></div>
+      <svg id="nl-whyStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <g id="nl-whyWeb"></g>
+        <g id="nl-whyRig"></g>
+      </svg>
+      <div id="nl-whyCol" style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">08 / WHY NESTURE</div>
+        <h2 style="margin:20px 0 0;max-width:22ch;font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(34px,3vw,48px);line-height:1.05;letter-spacing:-0.03em">One team, end to end.</h2>
+        <div id="nl-whyTiles" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:48px">
+          <div style="display:flex;flex-direction:column;gap:16px;padding:22px 20px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#26262B" stroke-width="3"></circle><circle data-ring cx="32" cy="32" r="26" fill="none" stroke="#FF2323" stroke-width="3" stroke-linecap="round" transform="rotate(-90 32 32)" stroke-dasharray="163.4" stroke-dashoffset="163.4"></circle></svg>
+            <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:30px;letter-spacing:-0.03em">[X+]</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">PROJECTS SHIPPED</div>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Across web, mobile and AI — most of them still running today.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;padding:22px 20px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#26262B" stroke-width="3"></circle><circle data-ring cx="32" cy="32" r="26" fill="none" stroke="#FF2323" stroke-width="3" stroke-linecap="round" transform="rotate(-90 32 32)" stroke-dasharray="163.4" stroke-dashoffset="163.4"></circle></svg>
+            <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:30px;letter-spacing:-0.03em">[X%]</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">CLIENT RETENTION</div>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Most engagements turn into a second and third phase of work.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;padding:22px 20px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#26262B" stroke-width="3"></circle><circle data-ring cx="32" cy="32" r="26" fill="none" stroke="#FF2323" stroke-width="3" stroke-linecap="round" transform="rotate(-90 32 32)" stroke-dasharray="163.4" stroke-dashoffset="163.4"></circle></svg>
+            <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:30px;letter-spacing:-0.03em">[X]</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">COUNTRIES SERVED</div>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">Remote by default, with overlap hours that suit your timezone.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;padding:22px 20px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px)">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#26262B" stroke-width="3"></circle><circle data-ring cx="32" cy="32" r="26" fill="none" stroke="#FF2323" stroke-width="3" stroke-linecap="round" transform="rotate(-90 32 32)" stroke-dasharray="163.4" stroke-dashoffset="163.4"></circle></svg>
+            <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:30px;letter-spacing:-0.03em">[X hrs]</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">RESPONSE TIME</div>
+            <p style="margin:0;font-size:13px;line-height:1.55;color:#A1A1AA">One shared channel with the people actually building your product.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-faq" data-screen-label="09 Questions" style="position:relative;height:300vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+      <svg id="nl-faqStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <path id="nl-faqRail" fill="none" stroke="#E50914" stroke-width="1" opacity="0.5"></path>
+        <g id="nl-faqRig"></g>
+      </svg>
+      <div id="nl-faqCol" style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">09 / QUESTIONS</div>
+        <h2 style="margin:20px 0 0;max-width:22ch;font-family:Poppins,sans-serif;font-weight:600;font-size:clamp(34px,3vw,48px);line-height:1.05;letter-spacing:-0.03em">Answers before you ask.</h2>
+        <div id="nl-faqRows" style="display:flex;flex-direction:column;gap:10px;margin-top:40px;max-width:900px">
+          <div style="border:1px solid #26262B;border-radius:14px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);padding:18px 22px;transition:border-color .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+              <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:16.5px;letter-spacing:-0.01em">How long does a typical project take?</h3>
+              <span data-mark style="flex:0 0 auto;width:10px;height:10px;border:1px solid #71717A;border-radius:2px;transition:border-color .3s ease,transform .3s ease,background .3s ease"></span>
+            </div>
+            <div data-ans style="overflow:hidden;max-height:0;opacity:0;transition:max-height .45s cubic-bezier(.2,.8,.2,1),opacity .35s ease">
+              <p style="margin:14px 0 0;font-size:14px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">A marketing site runs four to six weeks. A product build with accounts, payments and an admin panel is usually three to five months, split into two-week increments you review as they land.</p>
+            </div>
+          </div>
+          <div style="border:1px solid #26262B;border-radius:14px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);padding:18px 22px;transition:border-color .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+              <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:16.5px;letter-spacing:-0.01em">Do you work with our existing codebase?</h3>
+              <span data-mark style="flex:0 0 auto;width:10px;height:10px;border:1px solid #71717A;border-radius:2px;transition:border-color .3s ease,transform .3s ease,background .3s ease"></span>
+            </div>
+            <div data-ans style="overflow:hidden;max-height:0;opacity:0;transition:max-height .45s cubic-bezier(.2,.8,.2,1),opacity .35s ease">
+              <p style="margin:14px 0 0;font-size:14px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">Yes. We start with a short audit, agree what is worth keeping, and work inside your repo and review process rather than rewriting for the sake of it.</p>
+            </div>
+          </div>
+          <div style="border:1px solid #26262B;border-radius:14px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);padding:18px 22px;transition:border-color .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+              <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:16.5px;letter-spacing:-0.01em">How do you price work?</h3>
+              <span data-mark style="flex:0 0 auto;width:10px;height:10px;border:1px solid #71717A;border-radius:2px;transition:border-color .3s ease,transform .3s ease,background .3s ease"></span>
+            </div>
+            <div data-ans style="overflow:hidden;max-height:0;opacity:0;transition:max-height .45s cubic-bezier(.2,.8,.2,1),opacity .35s ease">
+              <p style="margin:14px 0 0;font-size:14px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">Fixed price for defined scope, monthly retainer for ongoing product work. You get the estimate broken down by phase before anything starts.</p>
+            </div>
+          </div>
+          <div style="border:1px solid #26262B;border-radius:14px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);padding:18px 22px;transition:border-color .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+              <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:16.5px;letter-spacing:-0.01em">Who owns the code and the accounts?</h3>
+              <span data-mark style="flex:0 0 auto;width:10px;height:10px;border:1px solid #71717A;border-radius:2px;transition:border-color .3s ease,transform .3s ease,background .3s ease"></span>
+            </div>
+            <div data-ans style="overflow:hidden;max-height:0;opacity:0;transition:max-height .45s cubic-bezier(.2,.8,.2,1),opacity .35s ease">
+              <p style="margin:14px 0 0;font-size:14px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">You do, from day one. Repositories, cloud accounts and domains are in your name, and handover includes the documentation to run them without us.</p>
+            </div>
+          </div>
+          <div style="border:1px solid #26262B;border-radius:14px;background:rgba(23,23,26,0.6);backdrop-filter:blur(16px);padding:18px 22px;transition:border-color .3s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+              <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:16.5px;letter-spacing:-0.01em">What happens after launch?</h3>
+              <span data-mark style="flex:0 0 auto;width:10px;height:10px;border:1px solid #71717A;border-radius:2px;transition:border-color .3s ease,transform .3s ease,background .3s ease"></span>
+            </div>
+            <div data-ans style="overflow:hidden;max-height:0;opacity:0;transition:max-height .45s cubic-bezier(.2,.8,.2,1),opacity .35s ease">
+              <p style="margin:14px 0 0;font-size:14px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">Monitoring and patching continue on a support plan, and we keep iterating on what the analytics show once real users arrive.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nl-contact" data-screen-label="10 Start a project" style="position:relative;height:260vh">
+    <div style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center">
+      <svg id="nl-ctaStage" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" aria-hidden="true">
+        <path id="nl-ctaDrop" fill="none" stroke="#E50914" stroke-width="1" opacity="0.5"></path>
+        <g id="nl-ctaSilk"></g>
+        <g id="nl-ctaRig"></g>
+      </svg>
+      <div id="nl-ctaCol" style="position:relative;width:100%;max-width:1440px;padding:88px clamp(20px,5.5vw,80px) 0;display:flex;justify-content:center">
+        <div id="nl-ctaCard" style="opacity:0;transform:translateY(28px) scale(0.97);display:flex;flex-direction:column;align-items:center;gap:22px;max-width:640px;padding:44px 40px;border:1px solid #26262B;border-radius:24px;background:rgba(23,23,26,0.72);backdrop-filter:blur(20px);text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">10 / START</div>
+          <h2 style="margin:0;max-width:20ch;font-family:Poppins,sans-serif;font-weight:700;font-size:clamp(34px,3.2vw,52px);line-height:1.04;letter-spacing:-0.03em;text-wrap:balance">Tell us what you are building.</h2>
+          <p style="margin:0;max-width:44ch;font-size:16px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">One call, no deck required. We will tell you what it takes, what it costs and whether we are the right team for it.</p>
+          <div id="nl-ctaBtns" style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:4px">
+            <a href="#nl-contact" style="opacity:0;display:flex;align-items:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;background:#E50914;color:#FFFFFF;font-size:14.5px;font-weight:500;white-space:nowrap;box-shadow:0 0 34px rgba(229,9,20,0.5);transition:transform .18s ease,box-shadow .18s ease" style-hover="transform:translateY(-2px);background:#FF2323;box-shadow:0 0 46px rgba(255,35,35,0.66);color:#FFFFFF">Book a call →</a>
+            <a href="#nl-contact" style="opacity:0;display:flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;border:1px solid #26262B;background:rgba(14,14,15,0.6);color:#F5F5F5;font-size:14.5px;font-weight:500;white-space:nowrap;transition:transform .18s ease,border-color .18s ease" style-hover="transform:translateY(-2px);border-color:#E50914;color:#F5F5F5">WhatsApp [+94 XX XXX XXXX]</a>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#71717A">[HELLO@DOMAIN] — COLOMBO, SRI LANKA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="position:relative;border-top:1px solid #26262B;padding:48px clamp(20px,5.5vw,80px) 40px;max-width:1440px;margin:0 auto">
+    <svg id="nl-footRig" width="64" height="44" viewBox="-32 -22 64 44" style="position:absolute;top:-22px;left:clamp(20px,5.5vw,80px);cursor:pointer;overflow:visible" role="button" aria-label="Back to top"></svg>
+    <div id="nl-footRow" style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap">
+      <div>
+        <div style="font-family:Poppins,sans-serif;font-weight:700;font-size:15px;letter-spacing:.2em">NESTURE LABS</div>
+        <p style="margin:12px 0 0;max-width:34ch;font-size:14px;line-height:1.6;color:#71717A">Web, Mobile, and AI Solutions that Scale with You. Colombo, Sri Lanka — working worldwide.</p>
+      </div>
+      <div style="display:flex;gap:40px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;color:#71717A">SITE</div>
+          <a href="#nl-services" style="font-size:13.5px;color:#A1A1AA" style-hover="color:#F5F5F5">Services</a>
+          <a href="#nl-work" style="font-size:13.5px;color:#A1A1AA" style-hover="color:#F5F5F5">Work</a>
+          <a href="#nl-faq" style="font-size:13.5px;color:#A1A1AA" style-hover="color:#F5F5F5">FAQ</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;color:#71717A">CONTACT</div>
+          <a href="#nl-contact" style="font-size:13.5px;color:#A1A1AA" style-hover="color:#F5F5F5">[hello@domain]</a>
+          <a href="#nl-contact" style="font-size:13.5px;color:#A1A1AA" style-hover="color:#F5F5F5">[+94 XX XXX XXXX]</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mobileSim&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Review&quot;,&quot;label&quot;:&quot;Mobile 390 mode&quot;},&quot;spiderScale&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.7,&quot;max&quot;:1.5,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Mascot&quot;},&quot;bugCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:8,&quot;min&quot;:4,&quot;max&quot;:8,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Scene 3&quot;},&quot;webDensity&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:12,&quot;min&quot;:8,&quot;max&quot;:16,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Scene 2&quot;}}">
+const NS = 'http://www.w3.org/2000/svg';
+const cl = (v, a, b) => v < a ? a : v > b ? b : v;
+const seg = (p, a, b) => cl((p - a) / (b - a), 0, 1);
+const eo = t => 1 - Math.pow(1 - t, 3);
+const lerp = (a, b, t) => a + (b - a) * t;
+
+function el(tag, attrs, parent) {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+
+function mkPath(pts) {
+  const cum = [0];
+  for (let i = 1; i < pts.length; i++) {
+    const dx = pts[i][0] - pts[i - 1][0], dy = pts[i][1] - pts[i - 1][1];
+    cum.push(cum[i - 1] + Math.hypot(dx, dy));
+  }
+  const len = cum[cum.length - 1];
+  return {
+    pts, len,
+    at(d) {
+      d = cl(d, 0, len);
+      let i = 1;
+      while (i < cum.length - 1 && cum[i] < d) i++;
+      const t = (d - cum[i - 1]) / Math.max(1e-6, cum[i] - cum[i - 1]);
+      const a = pts[i - 1], b = pts[i];
+      const ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
+      return { x: lerp(a[0], b[0], t), y: lerp(a[1], b[1], t), a: ang };
+    },
+    d: 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L')
+  };
+}
+
+// ---- spider rig: chip body from the logo + 8 three-segment legs, tetrapod gait ----
+const HIPS = [[-26, -16], [-30, -4], [-30, 10], [-26, 22]];
+const FEET = [[-70, -86], [-100, -38], [-97, 33], [-68, 78]];
+const GROUP_B = [1, 3, 4, 6]; // L2,L4,R1,R3
+
+function Rig(g, scale) {
+  const r = { g, s: scale, femur: 44, tibia: 46, C: 96, legs: [], planted: null };
+  r.body = el('g', {}, g);
+  const inner = el('g', { transform: 'scale(0.175) translate(-1000,-812)' }, r.body);
+  const art = el('g', { fill: 'none', stroke: '#FF2323', 'stroke-width': 16, filter: 'url(#nlGlowS)' }, inner);
+  el('path', { d: 'M925 545H1075V650H925Z' }, art);
+  el('path', { d: 'M905 650H1095L1185 740V990L1095 1080H905L815 990V740Z' }, art);
+  el('path', { d: 'M915 730H1085L1115 760V970L1085 1000H915L885 970V760Z' }, art);
+  r.core = el('path', { d: 'M940 775H1060V955H940Z', stroke: '#FF2323', 'stroke-width': 22, style: 'animation:nlCore 2.4s ease-in-out infinite' }, art);
+  const legG = el('g', { filter: 'url(#nlGlowS)' }, g);
+  for (let i = 0; i < 8; i++) {
+    r.legs.push({
+      line: el('polyline', { fill: 'none', stroke: '#FF2323', 'stroke-width': 2.1, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, legG),
+      pad: el('circle', { r: 2.4, fill: '#FF2323' }, legG)
+    });
+  }
+  r.g.insertBefore(legG, r.body);
+
+  r.unit = i => {
+    const side = i < 4 ? -1 : 1, k = i % 4;
+    return { hip: [HIPS[k][0] * (side < 0 ? 1 : -1), HIPS[k][1]], foot: [FEET[k][0] * (side < 0 ? 1 : -1), FEET[k][1]], side };
+  };
+
+  r.update = function (path, d, o) {
+    o = o || {};
+    const s = r.s * (o.scale || 1);
+    const base = path.at(d);
+    const target = o.heading != null ? o.heading : base.a;
+    if (r._h == null || o.snap) r._h = target;
+    else { let dd = ((target - r._h + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI; r._h += dd * 0.14; }
+    const heading = r._h;
+    const bobPhase = d / r.C * Math.PI * 4;
+    const nx = -Math.sin(heading), ny = Math.cos(heading);
+    const bob = Math.sin(bobPhase) * 2.5 * (o.moving === false ? 0 : 1);
+    const breathe = o.idle ? 1 + Math.sin(performance.now() / 900) * 0.012 : 1;
+    const bx = base.x + nx * bob, by = base.y + ny * bob;
+    r.body.setAttribute('transform', 'translate(' + bx.toFixed(2) + ',' + by.toFixed(2) + ') rotate(' + (heading * 180 / Math.PI + 90).toFixed(2) + ') scale(' + (s * breathe).toFixed(3) + ')');
+
+    const rot = (p, a) => { const t = a + Math.PI / 2; return [p[0] * Math.cos(t) - p[1] * Math.sin(t), p[0] * Math.sin(t) + p[1] * Math.cos(t)]; };
+    const restW = (dd, u) => {
+      const b = path.at(dd);
+      const a = o.heading != null ? o.heading : b.a;
+      const v = rot([u.foot[0] * s, u.foot[1] * s], a);
+      return [b.x + v[0], b.y + v[1], a];
+    };
+    const S = r.C / 2;
+
+    const K = 0.34;
+    for (let i = 0; i < 8; i++) {
+      const u = r.unit(i);
+      const hv = rot([u.hip[0] * s, u.hip[1] * s], heading);
+      const hx = bx + hv[0], hy = by + hv[1];
+      const off = GROUP_B.indexOf(i) >= 0 ? 0.5 : 0;
+      let ph = (d / r.C + off) % 1; if (ph < 0) ph += 1;
+      let fx, fy, dim = 1;
+      if (o.moving === false) {
+        const rw = restW(d, u); fx = rw[0]; fy = rw[1];
+      } else if (ph < 0.5) {
+        const dp = d - ph * r.C;
+        const rw = restW(dp, u);
+        fx = rw[0] + Math.cos(rw[2]) * S * K * s;
+        fy = rw[1] + Math.sin(rw[2]) * S * K * s;
+      } else {
+        const q = (ph - 0.5) * 2;
+        const dl = d - (ph - 0.5) * r.C, dn = dl + r.C / 2;
+        const a0 = restW(dl, u), a1 = restW(dn, u);
+        const f0x = a0[0] - Math.cos(a0[2]) * S * K * s, f0y = a0[1] - Math.sin(a0[2]) * S * K * s;
+        const f1x = a1[0] + Math.cos(a1[2]) * S * K * s, f1y = a1[1] + Math.sin(a1[2]) * S * K * s;
+        const e = q < 0.5 ? 2 * q * q : 1 - Math.pow(-2 * q + 2, 2) / 2;
+        fx = lerp(f0x, f1x, e);
+        fy = lerp(f0y, f1y, e);
+        const pull = Math.sin(Math.PI * q) * 0.16;
+        fx += (hx - fx) * pull;
+        fy += (hy - fy) * pull;
+        dim = 0.6;
+      }
+      if (o.mouse && (i === 0 || i === 4)) {
+        fx += cl(o.mouse[0] - bx, -80, 80) * 0.16;
+        fy += cl(o.mouse[1] - by, -80, 80) * 0.16;
+      }
+      const a = r.femur * s, b = r.tibia * s;
+      let dist = Math.hypot(fx - hx, fy - hy);
+      dist = cl(dist, Math.abs(a - b) + 0.5, a + b - 0.5);
+      const ang = Math.atan2(fy - hy, fx - hx);
+      const kA = Math.acos(cl((a * a + dist * dist - b * b) / (2 * a * dist), -1, 1)) * u.side;
+      const kx = hx + Math.cos(ang + kA) * a, ky = hy + Math.sin(ang + kA) * a;
+      const L = r.legs[i];
+      L.line.setAttribute('points', hx.toFixed(1) + ',' + hy.toFixed(1) + ' ' + kx.toFixed(1) + ',' + ky.toFixed(1) + ' ' + fx.toFixed(1) + ',' + fy.toFixed(1));
+      L.line.setAttribute('opacity', dim);
+      L.pad.setAttribute('cx', fx.toFixed(1));
+      L.pad.setAttribute('cy', fy.toFixed(1));
+      L.pad.setAttribute('opacity', (dim * 0.9).toFixed(2));
+      L.pad.setAttribute('r', (2.4 * s).toFixed(1));
+    }
+  };
+  return r;
+}
+
+// ---- orb web ----
+function rng(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+
+function buildWeb(g, w, h, radialCount, mob) {
+  g.textContent = '';
+  const R = mob ? Math.min(w * 0.38, h * 0.23) : Math.min(w * 0.285, h * 0.4);
+  const cx = mob ? w * 0.52 : w * 0.66, cy = mob ? h * 0.79 : h * 0.46, hub = R * 0.09;
+  const rn = rng(7321);
+  const N = radialCount;
+  const ang = [], anchor = [];
+  for (let i = 0; i < N; i++) {
+    const a = i / N * Math.PI * 2 - Math.PI / 2 + (rn() - 0.5) * 0.14;
+    ang.push(a);
+    const rr = R * (0.93 + rn() * 0.12);
+    anchor.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
+  }
+  const mk = (d, o) => el('path', Object.assign({ d, fill: 'none', stroke: '#E50914', 'stroke-width': 1.1, 'stroke-linecap': 'round' }, o || {}), g);
+  const web = { cx, cy, R, ang, anchor, nodes: [], radials: [] };
+  const frameG = el('g', { filter: 'url(#nlGlowW)' }, g);
+  const put = (p, o) => { const n = el('path', Object.assign({ d: p, fill: 'none', stroke: '#FF2323', 'stroke-width': 1.1 }, o || {}), frameG); n.L = n.getTotalLength(); n.setAttribute('stroke-dasharray', n.L); n.setAttribute('stroke-dashoffset', n.L); return n; };
+
+  web.bridge = put('M' + (cx - R * 1.34) + ' ' + (cy - R * 1.0) + 'L' + (cx + R * 1.3) + ' ' + (cy - R * 0.86));
+  web.y1 = put('M' + (cx - R * 0.62) + ' ' + (cy - R * 0.95) + 'L' + cx + ' ' + cy + 'L' + (cx + R * 0.6) + ' ' + (cy - R * 0.9));
+  web.y2 = put('M' + cx + ' ' + cy + 'L' + cx + ' ' + (cy + R * 1.18));
+  let fd = 'M';
+  for (let i = 0; i < N; i++) {
+    const a = ang[i], rr = R * (1.05 + (i % 3) * 0.015);
+    fd += (i === 0 ? '' : 'L') + (cx + Math.cos(a) * rr).toFixed(1) + ' ' + (cy + Math.sin(a) * rr).toFixed(1);
+  }
+  web.frame = put(fd + 'Z', { opacity: 0.75, 'stroke-width': 0.9 });
+  for (let i = 0; i < N; i++) {
+    const a = ang[i];
+    web.radials.push(put('M' + (cx + Math.cos(a) * hub).toFixed(1) + ' ' + (cy + Math.sin(a) * hub).toFixed(1) + 'L' + anchor[i][0].toFixed(1) + ' ' + anchor[i][1].toFixed(1), { 'stroke-width': 1 }));
+  }
+  let ad = 'M';
+  for (let i = 0; i <= 140; i++) {
+    const t = i / 140, a = -Math.PI / 2 + t * Math.PI * 2 * 3.4, rr = lerp(hub + 8, R * 0.86, t);
+    ad += (i ? 'L' : '') + (cx + Math.cos(a) * rr).toFixed(1) + ' ' + (cy + Math.sin(a) * rr).toFixed(1);
+  }
+  web.aux = put(ad, { stroke: '#8B0000', 'stroke-width': 0.9, opacity: 0.5 });
+  const loops = mob ? 6 : 9, steps = loops * N;
+  let cd = 'M'; const nodePts = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps, a = -Math.PI / 2 - t * Math.PI * 2 * loops, rr = lerp(R * 0.99, hub + 16, t);
+    const x = cx + Math.cos(a) * rr, y = cy + Math.sin(a) * rr;
+    cd += (i ? 'L' : '') + x.toFixed(1) + ' ' + y.toFixed(1);
+    if (i % (mob ? 5 : 3) === 0) nodePts.push([x, y, t]);
+  }
+  web.capture = put(cd, { 'stroke-width': 1.15 });
+  const nodeG = el('g', { filter: 'url(#nlGlowW)' }, g);
+  web.nodes = nodePts.map(p => { const c = el('circle', { cx: p[0].toFixed(1), cy: p[1].toFixed(1), r: 1.9, fill: '#FF2323', opacity: 0 }, nodeG); c.t = p[2]; return c; });
+  web.ripple = el('circle', { r: 10, fill: 'none', stroke: '#FF2323', 'stroke-width': 1.4, opacity: 0 }, g);
+  web.flex = el('g', {}, g);
+  return web;
+}
+
+const PROBLEMS = ['Slow website', 'Broken app', 'Manual work', 'Messy data', 'Downtime', 'Security holes', 'Poor SEO', 'No leads'];
+
+function buildBugs(g, web, n, mob) {
+  g.textContent = '';
+  const bugs = [];
+  for (let i = 0; i < n; i++) {
+    const a = -Math.PI / 2 + (i / n) * Math.PI * 2 + 0.24;
+    const tx = web.cx + Math.cos(a) * web.R * 0.7, ty = web.cy + Math.sin(a) * web.R * 0.7;
+    const sx = web.cx + Math.cos(a) * web.R * 2.6, sy = web.cy + Math.sin(a) * web.R * 2.6;
+    const grp = el('g', { opacity: 0 }, g);
+    const glitch = el('g', { style: 'animation:nlGlitch 3.4s steps(1,end) infinite' }, grp);
+    el('rect', { x: -7, y: -7, width: 14, height: 14, fill: 'none', stroke: '#FF2323', 'stroke-width': 1, opacity: 0.5, transform: 'translate(1.5,-1)' }, glitch);
+    const core = el('g', { fill: 'none', stroke: '#A1A1AA', 'stroke-width': 1.2 }, glitch);
+    el('rect', { x: -7, y: -7, width: 14, height: 14 }, core);
+    el('path', { d: 'M-7 -3h-5M-7 3h-5M7 -3h5M7 3h5M-3 -7v-5M3 -7v-5M-3 7v5M3 7v5' }, core);
+    el('circle', { r: 2, fill: '#71717A', stroke: 'none' }, core);
+    const right = Math.cos(a) >= 0;
+    if (!mob) el('text', { x: right ? 18 : -18, y: 4, fill: '#A1A1AA', 'text-anchor': right ? 'start' : 'end', 'font-family': 'JetBrains Mono, monospace', 'font-size': 11 }, grp).textContent = PROBLEMS[i];
+    bugs.push({ grp, sx, sy, tx, ty, a, pImpact: 0.2 + i * (0.62 / n) });
+  }
+  return bugs;
+}
+
+function buildCocoon(cell) {
+  const svg = el('svg', { viewBox: '-60 -60 120 120', width: '100%', height: '100%', style: 'max-width:130px;overflow:visible', 'aria-hidden': 'true' });
+  cell.appendChild(svg);
+  const g = el('g', { filter: 'url(#nlGlowW)' }, svg);
+  const bug = el('g', { fill: 'none', stroke: '#A1A1AA', 'stroke-width': 1.2, style: 'animation:nlGlitch 3.4s steps(1,end) infinite' }, g);
+  el('rect', { x: -8, y: -8, width: 16, height: 16 }, bug);
+  el('path', { d: 'M-8 -3h-6M-8 3h-6M8 -3h6M8 3h6M-3 -8v-6M3 -8v-6M-3 8v6M3 8v6' }, bug);
+  let d = 'M';
+  for (let i = 0; i <= 160; i++) {
+    const t = i / 160, a = t * Math.PI * 2 * 5;
+    const rr = 34 - t * 20;
+    d += (i ? 'L' : '') + (Math.cos(a) * rr).toFixed(1) + ' ' + (Math.sin(a) * rr * 1.25).toFixed(1);
+  }
+  const silk = el('path', { d, fill: 'none', stroke: '#FF2323', 'stroke-width': 1.1 }, g);
+  const L = silk.getTotalLength();
+  silk.setAttribute('stroke-dasharray', L);
+  silk.setAttribute('stroke-dashoffset', L);
+  const pod = el('ellipse', { rx: 16, ry: 22, fill: 'rgba(229,9,20,0.12)', stroke: '#FF2323', 'stroke-width': 1.2, opacity: 0 }, g);
+  return { svg, bug, silk, L, pod };
+}
+
+class Component extends DCLogic {
+  componentDidMount() {
+    const q = id => document.getElementById(id);
+    this.q = q;
+    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.fine = window.matchMedia('(pointer:fine)').matches;
+    this.mouse = [0, 0];
+    this.trail = [];
+    this.t0 = performance.now();
+
+    const scale = this.sc = this.props.spiderScale ?? 1;
+    this.bugCount = cl(Math.round(this.props.bugCount ?? 8), 4, 8);
+    this.radialCount = cl(Math.round(this.props.webDensity ?? 12), 8, 16);
+
+    const mobInit = window.innerWidth < 760;
+    this.heroRig = Rig(q('nl-heroRig'), (mobInit ? 0.82 : 1.18) * scale);
+    this.webRig = Rig(q('nl-webRig'), 0.82 * scale);
+    this.bugRig = Rig(q('nl-bugRig'), 0.82 * scale);
+    this.wrapRig = Rig(q('nl-wrapRig'), 0.6 * scale);
+    this.procRig = Rig(q('nl-procRig'), (mobInit ? 0.6 : 0.8) * scale);
+    this.workRig = Rig(q('nl-workRig'), (mobInit ? 0.6 : 0.78) * scale);
+    this.voiceRig = Rig(q('nl-voiceRig'), (mobInit ? 0.56 : 0.72) * scale);
+    this.whyRig = Rig(q('nl-whyRig'), (mobInit ? 0.58 : 0.76) * scale);
+    this.faqRig = Rig(q('nl-faqRig'), (mobInit ? 0.56 : 0.72) * scale);
+    this.ctaRig = Rig(q('nl-ctaRig'), (mobInit ? 0.6 : 0.82) * scale);
+
+    // loader mark
+    const lm = q('nl-loadmark');
+    const lg = el('g', { transform: 'translate(110,110) scale(0.08) translate(-1000,-812)', fill: 'none', stroke: '#FF2323', 'stroke-width': 26, filter: 'url(#nlGlowS)' }, lm);
+    ['M925 545H1075V650H925Z', 'M905 650H1095L1185 740V990L1095 1080H905L815 990V740Z', 'M940 775H1060V955H940Z',
+     'M815 740H460L360 640V290', 'M865 690L790 615H450V290', 'M815 830H490L360 960V1300', 'M815 935H500L450 985V1300'].forEach((d, i) => {
+      const p = el('path', { d }, lg);
+      if (i > 2) {
+        const L = p.getTotalLength();
+        p.setAttribute('stroke-dasharray', L);
+        p.style.setProperty('--nlL', L);
+        p.style.animation = 'nlTrace .6s cubic-bezier(.2,.8,.2,1) ' + (0.08 * (i - 3)) + 's forwards';
+      }
+    });
+    const mirror = el('g', { transform: 'translate(2000 0) scale(-1 1)' }, lg);
+    ['M815 740H460L360 640V290', 'M865 690L790 615H450V290', 'M815 830H490L360 960V1300', 'M815 935H500L450 985V1300'].forEach((d, i) => {
+      const p = el('path', { d }, mirror);
+      const L = p.getTotalLength();
+      p.setAttribute('stroke-dasharray', L);
+      p.style.setProperty('--nlL', L);
+      p.style.animation = 'nlTrace .6s cubic-bezier(.2,.8,.2,1) ' + (0.08 * i) + 's forwards';
+    });
+    setTimeout(() => { const l = q('nl-loader'); if (l) { l.style.opacity = '0'; l.style.visibility = 'hidden'; } }, this.reduced ? 120 : 1000);
+
+    // headline stagger (text ships visible; JS animates it in)
+    if (!this.reduced) {
+      Array.from(q('nl-h1').children).forEach((w, i) => {
+        w.style.animation = 'nlWordIn .55s cubic-bezier(.2,.8,.2,1) ' + (i * 0.09).toFixed(2) + 's forwards';
+      });
+    }
+
+    this.cocoons = Array.from(q('nl-cocoons').children).map(buildCocoon);
+    this.cards = Array.from(q('nl-cards').children);
+
+    // footer spider
+    const fr = Rig(q('nl-footRig'), 0.24);
+    fr.update(mkPath([[0, 0], [1, 0]]), 0, { moving: false, heading: Math.PI / 2 });
+    q('nl-footRig').addEventListener('click', () => window.scrollTo({ top: 0, behavior: this.reduced ? 'auto' : 'smooth' }));
+
+    if (this.reduced) {
+      ['nl-hero', 'nl-about', 'nl-problems', 'nl-services', 'nl-process', 'nl-work', 'nl-voices', 'nl-why', 'nl-faq', 'nl-contact'].forEach(id => { q(id).style.height = '100vh'; });
+    }
+    this.layout();
+    this._onResize = () => this.layout();
+    window.addEventListener('resize', this._onResize);
+    if (window.ResizeObserver) {
+      this._ro = new ResizeObserver(() => {
+        const w = q('nl-root').clientWidth, vh = window.innerHeight;
+        if (w === this._lastW && vh === this._lastVH) return;
+        this._lastW = w; this._lastVH = vh;
+        this.layout();
+      });
+      this._ro.observe(q('nl-root'));
+    }
+    setTimeout(() => this.layout(), 0);
+    if (this.fine && !this.reduced && !this.mob) {
+      this._onMove = e => {
+        q('nl-cursor').style.opacity = '1';
+        q('nl-trail').style.opacity = '1';
+        this.mouse = [e.clientX, e.clientY];
+        q('nl-cursor').style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+        this.trail.push([e.clientX, e.clientY]);
+        if (this.trail.length > 10) this.trail.shift();
+      };
+      window.addEventListener('mousemove', this._onMove, { passive: true });
+    }
+    if (!/[?&]nlDebug/.test(location.search)) return this.boot();
+    window.__nl = this;
+    window.__nlFreeze = (id, p) => {
+      ['nl-hero', 'nl-about', 'nl-problems', 'nl-services', 'nl-process', 'nl-work', 'nl-voices', 'nl-why', 'nl-faq', 'nl-contact'].forEach(s => {
+        const sec = q(s), kid = sec.firstElementChild;
+        if (!id) { sec.style.display = ''; kid.style.position = 'sticky'; kid.style.left = ''; kid.style.right = ''; kid.style.top = '0'; }
+        else if (s === id) { sec.style.display = 'block'; kid.style.position = 'fixed'; kid.style.top = '0'; kid.style.left = '0'; kid.style.right = '0'; }
+        else sec.style.display = 'none';
+      });
+      window.scrollTo(0, 0);
+      this.freeze = id ? { id, p } : null;
+      this.layout();
+    };
+    this.boot();
+  }
+
+  boot() {
+    this._loop = () => { this.tick(); this._raf = requestAnimationFrame(this._loop); };
+    this._raf = requestAnimationFrame(this._loop);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this._raf);
+    if (this._ro) this._ro.disconnect();
+    window.removeEventListener('resize', this._onResize);
+    if (this._onMove) window.removeEventListener('mousemove', this._onMove);
+  }
+
+  componentDidUpdate() { this.layout(); }
+
+  responsive() {
+    const q = this.q, vh = window.innerHeight;
+    const sim = !!this.props.mobileSim;
+    const root = q('nl-root');
+    root.style.width = sim ? '390px' : '';
+    root.style.margin = sim ? '0 auto' : '';
+    root.style.outline = sim ? '1px solid #26262B' : '';
+    const w = root.clientWidth || window.innerWidth;
+    const mob = this.mob = w < 760;
+    const H = (m, d) => this.reduced ? '100vh' : (mob ? m : d);
+    this.steps = this.steps || Array.from(q('nl-steps').children);
+    this.projects = this.projects || Array.from(q('nl-projects').children);
+    this.quotes = this.quotes || Array.from(q('nl-quotes').children);
+    this.whyTiles = this.whyTiles || Array.from(q('nl-whyTiles').children);
+    this.faqRows = this.faqRows || Array.from(q('nl-faqRows').children);
+    q('nl-h1').style.fontSize = mob ? '56px' : 'clamp(56px,6.4vw,104px)';
+    this.bugsEff = mob ? 4 : this.bugCount;
+    const sc = this.sc || 1;
+    if (this.heroRig) {
+      this.heroRig.s = (mob ? 0.82 : 1.18) * sc;
+      this.webRig.s = (mob ? 0.6 : 0.82) * sc;
+      this.bugRig.s = (mob ? 0.6 : 0.82) * sc;
+      this.wrapRig.s = (mob ? 0.46 : 0.6) * sc;
+      this.procRig.s = (mob ? 0.6 : 0.8) * sc;
+      this.workRig.s = (mob ? 0.6 : 0.78) * sc;
+      this.voiceRig.s = (mob ? 0.56 : 0.72) * sc;
+      this.whyRig.s = (mob ? 0.58 : 0.76) * sc;
+      this.faqRig.s = (mob ? 0.56 : 0.72) * sc;
+      this.ctaRig.s = (mob ? 0.6 : 0.82) * sc;
+    }
+    this.radialsEff = mob ? Math.min(9, this.radialCount) : this.radialCount;
+
+    q('nl-hero').style.height = H('180vh', '220vh');
+    q('nl-about').style.height = H('260vh', '340vh');
+    q('nl-problems').style.height = H('230vh', '320vh');
+    q('nl-services').style.height = H('270vh', '360vh');
+
+    q('nl-navlinks').style.display = w < 1080 ? 'none' : 'flex';
+    q('nl-navbar').style.gap = w < 1080 ? '14px' : '34px';
+    q('nl-footRow').style.gap = mob ? '24px' : '40px';
+
+    // hero: clear a left lane for the spider, stack the stat strip
+    const heroCol = q('nl-heroCol');
+    heroCol.style.paddingLeft = mob ? '78px' : 'clamp(20px,5.5vw,80px)';
+    const eyebrow = heroCol.children[0], ctaRow = heroCol.children[3];
+    eyebrow.style.whiteSpace = mob ? 'normal' : 'nowrap';
+    eyebrow.style.fontSize = mob ? '9.5px' : '10.5px';
+    eyebrow.style.letterSpacing = mob ? '.16em' : '.2em';
+    eyebrow.style.lineHeight = mob ? '1.5' : 'normal';
+    eyebrow.style.alignItems = mob ? 'flex-start' : 'center';
+    ctaRow.style.flexWrap = mob ? 'wrap' : 'nowrap';
+    ctaRow.style.gap = mob ? '10px' : '14px';
+    ctaRow.style.marginTop = mob ? '28px' : '38px';
+    Array.from(ctaRow.children).forEach(b => {
+      b.style.flex = mob ? '1 1 100%' : '0 0 auto';
+      b.style.justifyContent = mob ? 'center' : 'flex-start';
+    });
+    const stats = q('nl-stats');
+    stats.style.flexDirection = mob ? 'column' : 'row';
+    stats.style.gap = mob ? '8px' : '16px';
+    stats.style.marginTop = mob ? '36px' : '64px';
+    Array.from(stats.children).forEach(c => {
+      c.style.display = mob ? 'flex' : 'block';
+      c.style.alignItems = 'center';
+      c.style.justifyContent = mob ? 'space-between' : 'flex-start';
+      c.style.padding = mob ? '12px 16px' : '20px 22px';
+      c.lastElementChild.style.marginTop = mob ? '0' : '14px';
+      c.lastElementChild.style.fontSize = mob ? '24px' : '34px';
+    });
+
+    // scenes 2+3: text to the top, orb sits in the lower half
+    [['nl-aboutCol', '30ch'], ['nl-probCol', '32ch']].forEach(pair => {
+      const col = q(pair[0]);
+      col.style.justifyContent = mob ? 'flex-start' : 'center';
+      col.firstElementChild.style.maxWidth = mob ? 'none' : pair[1];
+      const h2 = col.querySelector('h2');
+      if (h2) h2.style.fontSize = mob ? '30px' : 'clamp(38px,3.6vw,56px)';
+    });
+    q('nl-radialLabels').style.display = mob ? 'none' : 'flex';
+    q('nl-total').textContent = '/ ' + this.bugsEff;
+    Array.from(q('nl-probs').children).forEach((c, i) => { c.style.display = i < this.bugsEff ? 'block' : 'none'; });
+
+    // scene 4: two-up grid, compact cards
+    q('nl-cards').style.gridTemplateColumns = mob ? 'repeat(2,minmax(0,1fr))' : 'repeat(4,minmax(0,1fr))';
+    q('nl-cocoons').style.gridTemplateColumns = mob ? 'repeat(2,minmax(0,1fr))' : 'repeat(4,minmax(0,1fr))';
+    q('nl-cards').style.gap = q('nl-cocoons').style.gap = mob ? '10px' : '18px';
+    const head = q('nl-svcHead');
+    head.style.flexDirection = mob ? 'column' : 'row';
+    head.style.alignItems = mob ? 'flex-start' : 'flex-end';
+    head.style.gap = mob ? '14px' : '40px';
+    head.lastElementChild.style.display = mob ? 'none' : 'block';
+    head.lastElementChild.style.maxWidth = mob ? 'none' : '34ch';
+    head.firstElementChild.querySelector('h2').style.fontSize = mob ? '28px' : 'clamp(34px,3vw,48px)';
+    q('nl-process').style.height = H('230vh', '300vh');
+    q('nl-work').style.height = H('250vh', '320vh');
+    q('nl-voices').style.height = H('220vh', '280vh');
+    q('nl-why').style.height = H('220vh', '280vh');
+    q('nl-faq').style.height = H('240vh', '300vh');
+    q('nl-contact').style.height = H('210vh', '260vh');
+    q('nl-steps').style.gridTemplateColumns = mob ? 'repeat(1,minmax(0,1fr))' : 'repeat(5,minmax(0,1fr))';
+    q('nl-projects').style.gridTemplateColumns = mob ? 'repeat(1,minmax(0,1fr))' : 'repeat(3,minmax(0,1fr))';
+    q('nl-quotes').style.gridTemplateColumns = mob ? 'repeat(1,minmax(0,1fr))' : 'repeat(3,minmax(0,1fr))';
+    q('nl-whyTiles').style.gridTemplateColumns = mob ? 'repeat(2,minmax(0,1fr))' : 'repeat(4,minmax(0,1fr))';
+    q('nl-faqCol').style.justifyContent = 'flex-start';
+    q('nl-faqCol').style.paddingTop = mob ? '104px' : '120px';
+    [['nl-procCol', 68], ['nl-workCol', 0], ['nl-voiceCol', 62], ['nl-faqCol', 58]].forEach(pair => {
+      q(pair[0]).style.paddingLeft = mob ? pair[1] + 'px' : 'clamp(20px,5.5vw,80px)';
+    });
+    // mobile keeps 3 steps, 2 projects, 1 quote — shorter pins, same motion
+    this.steps.forEach((s, i) => { s.style.display = mob && i > 2 ? 'none' : 'flex'; });
+    this.projects.forEach((c, i) => { c.style.display = mob && i > 1 ? 'none' : 'flex'; });
+    this.quotes.forEach((c, i) => { c.style.display = mob && i > 0 ? 'none' : 'flex'; });
+    this.steps.forEach(s => { s.querySelector('p').style.display = mob ? 'none' : 'block'; });
+    this.whyTiles.forEach(t => { t.querySelector('p').style.display = mob ? 'none' : 'block'; t.querySelector('svg').style.display = mob ? 'none' : 'block'; });
+    this.faqRows.forEach((r, i) => {
+      r.querySelector('h3').style.fontSize = mob ? '14.5px' : '16.5px';
+      r.style.padding = vh < 700 ? '13px 20px' : '18px 22px';
+      r.style.display = (vh < 620 && i > 2) ? 'none' : 'block';
+    });
+    q('nl-faqRows').style.gap = vh < 700 ? '8px' : '10px';
+    q('nl-footRow').style.flexDirection = mob ? 'column' : 'row';
+    q('nl-footRow').style.alignItems = 'flex-start';
+
+    q('nl-stats').style.display = vh < 700 ? 'none' : 'flex';
+    q('nl-scrollcue').style.display = (mob || vh < 560) ? 'none' : 'flex';
+    this.cards.forEach(wrap => {
+      const art = wrap.firstElementChild;
+      const p = art.querySelector('p'), tags = art.querySelector('[data-tags]');
+      const more = art.querySelector('a');
+      if (p) p.style.display = (mob || vh < 700) ? 'none' : 'block';
+      if (tags) tags.style.display = (mob || vh < 800) ? 'none' : 'flex';
+      art.style.padding = mob ? '14px' : '18px';
+      art.querySelector('h3').style.fontSize = mob ? '15px' : '19px';
+      if (more) more.style.display = mob ? 'none' : 'block';
+    });
+  }
+
+  layout() {
+    const q = this.q;
+    this.responsive();
+    const stages = ['nl-heroStage', 'nl-webStage', 'nl-bugStage', 'nl-wrapStage', 'nl-procStage', 'nl-workStage', 'nl-voiceStage', 'nl-whyStage', 'nl-faqStage', 'nl-ctaStage'];
+    stages.forEach(id => {
+      const s = q(id), r = s.getBoundingClientRect();
+      s.setAttribute('viewBox', '0 0 ' + Math.max(1, Math.round(r.width)) + ' ' + Math.max(1, Math.round(r.height)));
+    });
+    const hr = q('nl-heroStage').getBoundingClientRect();
+    const w = hr.width, h = hr.height;
+    this.heroPath = this.mob
+      ? mkPath([[30, -80], [30, h * 0.12], [32, h * 0.3], [30, h * 0.5], [31, h * 0.68], [30, h * 0.8]])
+      : mkPath([[w + 90, -80], [w * 0.97, h * 0.04], [w * 0.92, h * 0.17], [w * 0.87, h * 0.3], [w * 0.82, h * 0.42], [w * 0.78, h * 0.5]]);
+    q('nl-dragline').setAttribute('d', this.heroPath.d);
+    const dl = q('nl-dragline');
+    dl.L = dl.getTotalLength();
+    dl.setAttribute('stroke-dasharray', dl.L);
+
+    const wr = q('nl-webStage').getBoundingClientRect();
+    this.web = buildWeb(q('nl-web'), wr.width, wr.height, this.radialsEff, this.mob);
+    q('nl-webStage').appendChild(q('nl-webRig'));
+    const W = this.web;
+    const tour = [[W.cx - W.R * 1.34, W.cy - W.R]];
+    tour.push([W.cx + W.R * 1.25, W.cy - W.R * 0.86], [W.cx, W.cy], [W.cx, W.cy + W.R * 1.05], [W.cx, W.cy]);
+    for (let i = 0; i < W.ang.length; i++) {
+      const a = W.ang[i];
+      tour.push([W.cx + Math.cos(a) * W.R * 0.45, W.cy + Math.sin(a) * W.R * 0.45]);
+      tour.push(W.anchor[i]);
+    }
+    for (let i = 0; i <= 40; i++) {
+      const t = i / 40, a = -Math.PI / 2 - t * Math.PI * 2 * 2.4, rr = lerp(W.R * 0.95, W.R * 0.2, t);
+      tour.push([W.cx + Math.cos(a) * rr, W.cy + Math.sin(a) * rr]);
+    }
+    this.webTour = mkPath(tour);
+
+    const br = q('nl-bugStage').getBoundingClientRect();
+    this.web2 = buildWeb(q('nl-web2'), br.width, br.height, this.radialsEff, this.mob);
+    q('nl-bugStage').appendChild(q('nl-bugs'));
+    q('nl-bugStage').appendChild(q('nl-bugRig'));
+    this.bugs = buildBugs(q('nl-bugs'), this.web2, this.bugsEff, this.mob);
+    this.setWeb(this.web2, 1, true);
+
+    const vh = window.innerHeight;
+    [['nl-hero', 'nl-heroCol'], ['nl-about', 'nl-aboutCol'], ['nl-problems', 'nl-probCol'], ['nl-process', 'nl-procCol'], ['nl-work', 'nl-workCol'], ['nl-voices', 'nl-voiceCol'], ['nl-why', 'nl-whyCol'], ['nl-faq', 'nl-faqCol']].forEach(pair => {
+      const id = pair[0], col = q(pair[1]);
+      if (!col) return;
+      col.style.transform = 'none';
+      col.style.transformOrigin = '50% 50%';
+      const kids = Array.from(col.children).filter(k => k.getBoundingClientRect().height > 0);
+      if (!kids.length) return;
+      const top = kids[0].getBoundingClientRect().top, bot = kids[kids.length - 1].getBoundingClientRect().bottom;
+      let extra = 0;
+      if (id === 'nl-hero' && !this.mob && vh >= 560) extra = 120;
+      if (id === 'nl-faq') extra = this.faqRows.reduce((m, r) => Math.max(m, r.querySelector('[data-ans]').firstElementChild.offsetHeight + 16), 0);
+      const need = bot - top + 96 + extra;
+      const f = Math.max(0.85, Math.min(1, vh / Math.max(1, need)));
+      if (f < 1) col.style.transform = 'scale(' + f.toFixed(3) + ')';
+    });
+    const inner = q('nl-svcInner');
+    inner.style.transform = 'none';
+    const fit = Math.max(0.85, Math.min(1, (vh - 96) / Math.max(1, inner.scrollHeight)));
+    inner.style.transform = fit < 1 ? 'scale(' + fit.toFixed(3) + ')' : 'none';
+
+    const ws = q('nl-wrapStage').getBoundingClientRect();
+    const cells = Array.from(q('nl-cocoons').children).map(c => {
+      const r = c.getBoundingClientRect();
+      return [r.left - ws.left + r.width / 2, r.top - ws.top + r.height / 2];
+    });
+    this.cellPts = cells;
+    this.wrapTour = mkPath(cells.length ? [[cells[0][0], -80]].concat(cells).concat([[cells[7][0] + 120, ws.height + 90]]) : [[0, 0], [1, 1]]);
+
+    const box = (stageId, el) => {
+      const s = q(stageId).getBoundingClientRect(), r = el.getBoundingClientRect();
+      return { x: r.left - s.left, y: r.top - s.top, w: r.width, h: r.height, sw: s.width, sh: s.height };
+    };
+    const dash = n => { n.L = n.getTotalLength(); n.setAttribute('stroke-dasharray', n.L); n.setAttribute('stroke-dashoffset', n.L); return n; };
+
+    // 05 — one thread above the step row (a left lane on mobile)
+    this.steps = Array.from(q('nl-steps').children);
+    this.stepDots = this.steps.map(s => s.firstElementChild.lastElementChild);
+    const sb = box('nl-procStage', q('nl-steps'));
+    this.procPath = this.mob
+      ? mkPath([[34, -70], [34, sb.sh * 0.5], [34, sb.sh + 70]])
+      : mkPath([[-70, sb.y - 26], [sb.sw * 0.5, sb.y - 30], [sb.sw + 70, sb.y - 26]]);
+    dash(q('nl-procThread')).setAttribute('d', this.procPath.d);
+    const pt = q('nl-procThread'); pt.L = pt.getTotalLength(); pt.setAttribute('stroke-dasharray', pt.L); pt.setAttribute('stroke-dashoffset', pt.L);
+
+    // 06 — dragline down the outer edge, past the project cards
+    this.projects = Array.from(q('nl-projects').children);
+    const wb = box('nl-workStage', q('nl-projects'));
+    const wx = this.mob ? 32 : wb.sw - 46;
+    this.workPath = mkPath([[wx, -80], [wx + 6, wb.sh * 0.3], [wx - 4, wb.sh * 0.62], [wx, wb.sh + 80]]);
+    const wl = q('nl-workLine'); wl.setAttribute('d', this.workPath.d); wl.L = wl.getTotalLength();
+    wl.setAttribute('stroke-dasharray', wl.L); wl.setAttribute('stroke-dashoffset', wl.L);
+
+    // 07 — a single thread the spider hangs from, above the quotes
+    this.quotes = Array.from(q('nl-quotes').children);
+    const qb = box('nl-voiceStage', q('nl-quotes'));
+    const vx = this.mob ? 38 : qb.sw * 0.5;
+    this.voicePath = mkPath([[vx, -90], [vx, Math.max(60, qb.y - 54)]]);
+    const vt = q('nl-voiceThread'); vt.setAttribute('d', this.voicePath.d); vt.L = vt.getTotalLength();
+    vt.setAttribute('stroke-dasharray', vt.L); vt.setAttribute('stroke-dashoffset', vt.L);
+
+    // 08 — plucked spokes behind the tiles
+    this.whyRings = Array.from(q('nl-whyTiles').querySelectorAll('[data-ring]'));
+    this.whyTiles = Array.from(q('nl-whyTiles').children);
+    const yb = box('nl-whyStage', q('nl-whyTiles'));
+    const wcx = yb.sw * 0.5, wcy = yb.y + yb.h * 0.5, wR = Math.max(yb.w, yb.h) * 0.62;
+    this.whyHub = [wcx, wcy];
+    const wg = q('nl-whyWeb'); wg.textContent = '';
+    const spokeG = el('g', { filter: 'url(#nlGlowW)' }, wg);
+    this.whySpokes = [];
+    const spokeN = this.mob ? 9 : 14;
+    for (let i = 0; i < spokeN; i++) {
+      const a = i / spokeN * Math.PI * 2 - Math.PI / 2;
+      const p = el('path', { d: 'M' + wcx.toFixed(1) + ' ' + wcy.toFixed(1) + 'L' + (wcx + Math.cos(a) * wR).toFixed(1) + ' ' + (wcy + Math.sin(a) * wR).toFixed(1), fill: 'none', stroke: '#8B0000', 'stroke-width': 0.9, opacity: 0.45 }, spokeG);
+      this.whySpokes.push(dash(p));
+    }
+    this.whyPath = mkPath([[wcx - 2, wcy], [wcx + 2, wcy]]);
+
+    // 09 — rail down the left of the question stack
+    this.faqRows = Array.from(q('nl-faqRows').children);
+    const fb = box('nl-faqStage', q('nl-faqRows'));
+    const fx = this.mob ? 30 : Math.max(26, fb.x - 34);
+    this.faqPath = mkPath([[fx, -70], [fx, fb.y + fb.h * 0.5], [fx, fb.sh + 70]]);
+    const fr = q('nl-faqRail'); fr.setAttribute('d', this.faqPath.d); fr.L = fr.getTotalLength();
+    fr.setAttribute('stroke-dasharray', fr.L); fr.setAttribute('stroke-dashoffset', fr.L);
+
+    // 10 — drop line + silk ring around the card
+    const cb = box('nl-ctaStage', q('nl-ctaCard'));
+    const ccx = cb.x + cb.w / 2, ccy = cb.y + cb.h / 2;
+    this.ctaPath = mkPath([[ccx, -90], [ccx, Math.max(40, cb.y - 66)]]);
+    const cd = q('nl-ctaDrop'); cd.setAttribute('d', this.ctaPath.d); cd.L = cd.getTotalLength();
+    cd.setAttribute('stroke-dasharray', cd.L); cd.setAttribute('stroke-dashoffset', cd.L);
+    const sg = q('nl-ctaSilk'); sg.textContent = '';
+    const silkG = el('g', { filter: 'url(#nlGlowW)' }, sg);
+    const rx = cb.w / 2 + 26, ry = cb.h / 2 + 26;
+    let sd = 'M';
+    for (let i = 0; i <= 200; i++) {
+      const t = i / 200, a = -Math.PI / 2 + t * Math.PI * 2 * 2.2, k = 1 + t * 0.14;
+      sd += (i ? 'L' : '') + (ccx + Math.cos(a) * rx * k).toFixed(1) + ' ' + (ccy + Math.sin(a) * ry * k).toFixed(1);
+    }
+    this.ctaSilk = dash(el('path', { d: sd, fill: 'none', stroke: '#FF2323', 'stroke-width': 1.05, opacity: 0.8 }, silkG));
+    this.ctaBtns = Array.from(q('nl-ctaBtns').children);
+  }
+
+  vis(id) {
+    if (this.reduced) return true;
+    const r = this.q(id).getBoundingClientRect();
+    return r.bottom > -120 && r.top < window.innerHeight + 120;
+  }
+
+  prog(id) {
+    if (this.freeze && this.freeze.id === id) return this.freeze.p;
+    if (this.reduced) return 1;
+    const r = this.q(id).getBoundingClientRect();
+    const span = r.height - window.innerHeight;
+    return cl(-r.top / Math.max(1, span), 0, 1);
+  }
+
+  setWeb(W, p, dim) {
+    const so = (n, t) => n.setAttribute('stroke-dashoffset', n.L * (1 - t));
+    so(W.bridge, seg(p, 0, 0.1));
+    so(W.y1, seg(p, 0.1, 0.17));
+    so(W.y2, seg(p, 0.14, 0.2));
+    so(W.frame, seg(p, 0.2, 0.32));
+    W.radials.forEach((n, i) => so(n, seg(p, 0.32 + i * 0.012, 0.42 + i * 0.012)));
+    const auxP = seg(p, 0.55, 0.7);
+    so(W.aux, auxP);
+    W.aux.setAttribute('opacity', (0.5 * auxP * (1 - seg(p, 0.78, 0.94) * 0.9)).toFixed(2));
+    const capP = seg(p, 0.7, 0.94);
+    so(W.capture, capP);
+    const glow = Math.sin(seg(p, 0.94, 1) * Math.PI) * 0.6;
+    const baseOp = dim ? 0.52 : lerp(1, 0.55, seg(p, 0.94, 1));
+    W.capture.setAttribute('opacity', cl(baseOp + glow, 0, 1).toFixed(2));
+    W.radials.forEach(n => n.setAttribute('opacity', cl(baseOp * 0.9 + glow, 0, 1).toFixed(2)));
+    W.nodes.forEach(n => n.setAttribute('opacity', (capP > n.t ? cl(0.45 + glow, 0, 1) : 0).toFixed(2)));
+  }
+
+  tick() {
+    const q = this.q, now = performance.now();
+    const intro = this.reduced ? 1 : eo(cl((now - this.t0 - 900) / 1200, 0, 1));
+
+    // nav shrink
+    const sy = window.scrollY;
+    const nav = q('nl-nav').firstElementChild;
+    nav.style.padding = sy > 40 ? '6px 8px 6px 14px' : '10px 12px 10px 18px';
+    nav.style.background = sy > 40 ? 'rgba(14,14,15,0.86)' : 'rgba(14,14,15,0.66)';
+
+    // cursor trail
+    if (this.trail.length > 2) {
+      q('nl-trailpath').setAttribute('d', 'M' + this.trail.map(p => p[0].toFixed(0) + ' ' + p[1].toFixed(0)).join('L'));
+      if (now % 2 < 2) this.trail.shift();
+    }
+
+    // scene 1
+    const hp = this.prog('nl-hero');
+    const walk = cl(Math.max(intro * 0.45, 0.45 + seg(hp, 0, 0.62) * 0.55), 0, 1);
+    const hd = walk * this.heroPath.len;
+    const idle = walk >= 0.999;
+    this.heroRig.update(this.heroPath, hd, { idle, moving: !idle || !this.reduced ? walk < 0.999 : false, mouse: idle && this.fine && !this.mob ? this.mouse : null });
+    const dl = q('nl-dragline');
+    dl.setAttribute('stroke-dashoffset', dl.L * (1 - walk));
+    const cardsP = this.reduced ? 1 : eo(cl((intro - 0.55) / 0.45, 0, 1));
+    Array.from(q('nl-stats').children).forEach((c, i) => {
+      const t = cl((cardsP - i * 0.08) / 0.84, 0, 1);
+      c.style.opacity = t;
+      c.style.transform = 'translateY(' + ((1 - t) * 22).toFixed(1) + 'px)';
+    });
+    q('nl-scrollcue').style.opacity = cl(1 - hp * 14, 0, 1);
+
+    // scene 2
+    const p2 = this.prog('nl-about');
+    this.setWeb(this.web, p2, false);
+    const wd = this.webTour.len * cl(p2 / 0.94, 0, 1);
+    this.webRig.update(this.webTour, wd, { moving: p2 > 0.001 && p2 < 0.96 });
+    const steps = ['STEP 1 / 6 — BRIDGE THREAD', 'STEP 2 / 6 — Y-FRAME', 'STEP 3 / 6 — FRAME THREADS', 'STEP 4 / 6 — RADIALS', 'STEP 5 / 6 — AUXILIARY SPIRAL', 'STEP 6 / 6 — CAPTURE SPIRAL'];
+    const si = p2 < 0.1 ? 0 : p2 < 0.2 ? 1 : p2 < 0.32 ? 2 : p2 < 0.55 ? 3 : p2 < 0.7 ? 4 : 5;
+    const se = q('nl-webStep');
+    if (se.textContent !== steps[si]) se.textContent = steps[si];
+    Array.from(q('nl-radialLabels').children).forEach((n, i) => {
+      const t = seg(p2, 0.34 + i * 0.05, 0.44 + i * 0.05);
+      n.style.opacity = t;
+      n.style.transform = 'translateX(' + ((1 - t) * -14).toFixed(1) + 'px)';
+    });
+
+    // scene 3
+    const p3 = this.prog('nl-problems');
+    const W2 = this.web2;
+    let caught = 0, lastA = Math.PI / 2, amp = 0;
+    let ripple = null;
+    this.bugs.forEach((b, i) => {
+      const fly = seg(p3, b.pImpact - 0.14, b.pImpact);
+      const hit = p3 >= b.pImpact;
+      if (hit) { caught++; lastA = b.a + Math.PI; }
+      const tau = hit ? (p3 - b.pImpact) / 0.06 : 0;
+      const vib = hit ? Math.exp(-3.4 * tau) * Math.sin(tau * 13) : 0;
+      if (hit && Math.abs(vib) > Math.abs(amp)) { amp = vib; ripple = b; }
+      const x = lerp(b.sx, b.tx, eo(fly)), y = lerp(b.sy, b.ty, eo(fly));
+      const jx = hit ? vib * 7 * Math.cos(b.a) : 0, jy = hit ? vib * 7 * Math.sin(b.a) : 0;
+      b.grp.setAttribute('opacity', fly > 0.02 ? cl(fly * 1.4, 0, 1).toFixed(2) : 0);
+      b.grp.setAttribute('transform', 'translate(' + (x + jx).toFixed(1) + ',' + (y + jy).toFixed(1) + ') scale(' + (1 + Math.abs(vib) * 0.18).toFixed(3) + ')');
+    });
+    W2.flex.setAttribute('transform', 'translate(' + (W2.cx) + ',' + (W2.cy) + ') scale(' + (1 + amp * 0.02).toFixed(4) + ') translate(' + (-W2.cx) + ',' + (-W2.cy) + ')');
+    q('nl-web2').setAttribute('transform', 'translate(' + (W2.cx) + ' ' + (W2.cy) + ') scale(' + (1 + amp * 0.018).toFixed(4) + ') translate(' + (-W2.cx) + ' ' + (-W2.cy) + ')');
+    if (ripple) {
+      const tau = (p3 - ripple.pImpact) / 0.06;
+      W2.ripple.setAttribute('cx', ripple.tx.toFixed(1));
+      W2.ripple.setAttribute('cy', ripple.ty.toFixed(1));
+      W2.ripple.setAttribute('r', (10 + cl(tau, 0, 1) * 46).toFixed(1));
+      W2.ripple.setAttribute('opacity', cl(1 - tau, 0, 1).toFixed(2));
+    } else W2.ripple.setAttribute('opacity', 0);
+    const cn = q('nl-counter');
+    if (cn.textContent !== String(caught)) cn.textContent = caught;
+    Array.from(q('nl-probs').children).forEach((n, i) => {
+      const on = i < caught;
+      n.style.color = on ? '#F5F5F5' : '#71717A';
+      n.style.borderColor = on ? '#E50914' : '#26262B';
+    });
+    const hubPath = mkPath([[W2.cx - 2, W2.cy - W2.R * 0.1], [W2.cx + 2, W2.cy - W2.R * 0.1]]);
+    this.bugRig.update(hubPath, 0.5, { moving: false, heading: lastA, idle: true });
+
+    // scene 4
+    const p4 = this.prog('nl-services');
+    this.cocoons.forEach((c, i) => {
+      const wp = seg(p4, 0.04 + i * 0.035, 0.16 + i * 0.035);
+      const fade = seg(p4, 0.34 + i * 0.03, 0.46 + i * 0.03);
+      c.silk.setAttribute('stroke-dashoffset', c.L * (1 - wp));
+      c.bug.setAttribute('opacity', (1 - wp).toFixed(2));
+      c.pod.setAttribute('opacity', (cl(wp * 1.2 - 0.2, 0, 1) * (1 - fade)).toFixed(2));
+      c.svg.style.opacity = (1 - fade).toFixed(2);
+    });
+    this.cards.forEach((c, i) => {
+      const t = eo(seg(p4, 0.36 + i * 0.03, 0.5 + i * 0.03));
+      c.style.opacity = t;
+      c.style.transform = 'translateY(' + ((1 - t) * 26).toFixed(1) + 'px) scale(' + lerp(0.96, 1, t).toFixed(3) + ')';
+    });
+    const wrapD = cl(p4 / 0.42, 0, 1) * this.wrapTour.len;
+    this.wrapRig.update(this.wrapTour, wrapD, { moving: p4 < 0.44 });
+    q('nl-wrapStage').style.opacity = cl(1 - seg(p4, 0.44, 0.56), 0, 1);
+
+    // scene 5 — the thread that runs the whole engagement
+    if (this.vis('nl-process')) {
+      const p5 = this.prog('nl-process');
+      const t = q('nl-procThread'); t.setAttribute('stroke-dashoffset', t.L * (1 - cl(p5 / 0.9, 0, 1)));
+      this.procRig.update(this.procPath, cl(p5 / 0.9, 0, 1) * this.procPath.len, { moving: p5 > 0.002 && p5 < 0.92 });
+      const names = ['DISCOVER', 'ARCHITECT', 'DESIGN', 'BUILD', 'SCALE'];
+      let cur = 0;
+      this.steps.forEach((s, i) => {
+        const on = p5 > 0.1 + i * 0.16;
+        if (on) cur = i;
+        s.style.borderColor = on ? '#E50914' : '#26262B';
+        s.style.transform = on ? 'translateY(-4px)' : 'none';
+        const dot = this.stepDots[i];
+        dot.style.background = on ? '#FF2323' : '#26262B';
+        dot.style.boxShadow = on ? '0 0 10px #E50914' : 'none';
+      });
+      const label = 'STEP 0' + (cur + 1) + ' — ' + names[cur];
+      const ls = q('nl-procStep');
+      if (ls.textContent !== label) ls.textContent = label;
+    }
+
+    // scene 6 — descending past the work
+    if (this.vis('nl-work')) {
+      const p6 = this.prog('nl-work');
+      const wl = q('nl-workLine'); wl.setAttribute('stroke-dashoffset', wl.L * (1 - cl(p6 / 0.92, 0, 1)));
+      this.workRig.update(this.workPath, cl(p6 / 0.92, 0, 1) * this.workPath.len, { moving: p6 > 0.002 && p6 < 0.94 });
+      let shown = 1;
+      this.projects.forEach((c, i) => {
+        const e = eo(seg(p6, 0.14 + i * 0.2, 0.34 + i * 0.2));
+        if (e > 0.5) shown = i + 1;
+        c.style.opacity = e.toFixed(2);
+        c.style.transform = 'translateY(' + ((1 - e) * 30).toFixed(1) + 'px)';
+      });
+      const wc = q('nl-workCount'), txt = '0' + shown + ' / 03';
+      if (wc.textContent !== txt) wc.textContent = txt;
+    }
+
+    // scene 7 — hanging over the quotes
+    if (this.vis('nl-voices')) {
+      const p7 = this.prog('nl-voices');
+      const vt = q('nl-voiceThread');
+      const drop = cl(p7 / 0.34, 0, 1);
+      vt.setAttribute('stroke-dashoffset', vt.L * (1 - drop));
+      const sway = Math.sin(now / 760) * 0.06;
+      this.voiceRig.update(this.voicePath, drop * this.voicePath.len, { moving: drop < 0.995, heading: Math.PI / 2 + sway, idle: drop > 0.99 });
+      this.quotes.forEach((c, i) => {
+        const e = eo(seg(p7, 0.34 + i * 0.14, 0.52 + i * 0.14));
+        c.style.opacity = e.toFixed(2);
+        c.style.transform = 'translateY(' + ((1 - e) * 24).toFixed(1) + 'px)';
+      });
+    }
+
+    // scene 8 — plucking each thread until the number lands
+    if (this.vis('nl-why')) {
+      const p8 = this.prog('nl-why');
+      this.whySpokes.forEach((s, i) => s.setAttribute('stroke-dashoffset', s.L * (1 - seg(p8, 0.04 + i * 0.012, 0.2 + i * 0.012))));
+      let pluckA = -Math.PI / 2, amp = 0;
+      this.whyRings.forEach((r, i) => {
+        const a0 = 0.22 + i * 0.13, a1 = a0 + 0.14;
+        const e = eo(seg(p8, a0, a1));
+        r.setAttribute('stroke-dashoffset', (163.4 * (1 - e)).toFixed(1));
+        const tau = (p8 - a1) / 0.05;
+        const v = p8 >= a1 && tau < 3 ? Math.exp(-3.2 * tau) * Math.sin(tau * 12) : 0;
+        if (Math.abs(v) > Math.abs(amp)) {
+          amp = v;
+          const tb = this.whyTiles[i].getBoundingClientRect(), sb = q('nl-whyStage').getBoundingClientRect();
+          pluckA = Math.atan2((tb.top + tb.height / 2) - (sb.top + this.whyHub[1]), (tb.left + tb.width / 2) - (sb.left + this.whyHub[0]));
+        }
+        const tile = this.whyTiles[i];
+        tile.style.transform = 'translateY(' + (v * -3).toFixed(2) + 'px)';
+        tile.style.borderColor = e > 0.98 ? '#E50914' : '#26262B';
+      });
+      this.whyRig.update(this.whyPath, 0.5, { moving: false, heading: pluckA, idle: true });
+    }
+
+    // scene 9 — crawling the rail, opening each answer
+    if (this.vis('nl-faq')) {
+      const p9 = this.prog('nl-faq');
+      const fr = q('nl-faqRail'); fr.setAttribute('stroke-dashoffset', fr.L * (1 - cl(p9 / 0.9, 0, 1)));
+      this.faqRig.update(this.faqPath, cl(p9 / 0.9, 0, 1) * this.faqPath.len, { moving: p9 > 0.002 && p9 < 0.92 });
+      const live = this.faqRows.filter(r => r.style.display !== 'none');
+      const n = live.length;
+      const active = p9 < 0.08 ? -1 : Math.min(n - 1, Math.floor((p9 - 0.08) / (0.84 / n)));
+      live.forEach((row, i) => {
+        const on = i === active;
+        const ans = row.querySelector('[data-ans]'), mark = row.querySelector('[data-mark]');
+        ans.style.maxHeight = on ? (ans.firstElementChild.offsetHeight + 16) + 'px' : '0px';
+        ans.style.opacity = on ? '1' : '0';
+        row.style.borderColor = on ? '#E50914' : '#26262B';
+        row.style.background = on ? 'rgba(35,35,40,0.7)' : 'rgba(23,23,26,0.6)';
+        mark.style.transform = on ? 'rotate(45deg)' : 'none';
+        mark.style.background = on ? '#E50914' : 'transparent';
+        mark.style.borderColor = on ? '#E50914' : (i < active ? '#E50914' : '#71717A');
+      });
+    }
+
+    // scene 10 — the last drop, then silk around the call to action
+    if (this.vis('nl-contact')) {
+      const p10 = this.prog('nl-contact');
+      const cd = q('nl-ctaDrop');
+      const drop = cl(p10 / 0.3, 0, 1);
+      cd.setAttribute('stroke-dashoffset', cd.L * (1 - drop));
+      this.ctaRig.update(this.ctaPath, drop * this.ctaPath.len, { moving: drop < 0.995, heading: Math.PI / 2, idle: drop > 0.99 });
+      this.ctaSilk.setAttribute('stroke-dashoffset', this.ctaSilk.L * (1 - seg(p10, 0.3, 0.68)));
+      const ce = eo(seg(p10, 0.34, 0.56));
+      const card = q('nl-ctaCard');
+      card.style.opacity = ce.toFixed(2);
+      card.style.transform = 'translateY(' + ((1 - ce) * 28).toFixed(1) + 'px) scale(' + lerp(0.97, 1, ce).toFixed(3) + ')';
+      this.ctaBtns.forEach((b, i) => { b.style.opacity = eo(seg(p10, 0.56 + i * 0.07, 0.68 + i * 0.07)).toFixed(2); });
+    }
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

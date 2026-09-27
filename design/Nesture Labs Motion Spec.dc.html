@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html { background:#050505; }
+  body { margin:0; background:#050505; color:#F5F5F5; font-family:Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#E50914; text-decoration:none; }
+  a:hover { color:#FF2323; }
+  @keyframes nlCore { 0%,100% { opacity:.4; } 50% { opacity:1; } }
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; } }
+</style>
+</helmet>
+<div style="max-width:1180px;margin:0 auto;padding:56px clamp(20px,4vw,44px) 90px">
+
+  <header style="display:flex;flex-direction:column;gap:16px;padding-bottom:32px;border-bottom:1px solid #26262B">
+    <div style="display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.24em;color:#A1A1AA">
+      <span style="width:6px;height:6px;border-radius:50%;background:#E50914;box-shadow:0 0 10px #E50914"></span>NESTURE LABS — SCROLL STORY
+    </div>
+    <h1 style="margin:0;max-width:22ch;font-family:Poppins,sans-serif;font-weight:700;font-size:clamp(36px,4.2vw,58px);line-height:1.02;letter-spacing:-0.035em">Storyboard, motion spec &amp; components</h1>
+    <p style="margin:0;max-width:62ch;font-size:15.5px;line-height:1.7;color:#A1A1AA;text-wrap:pretty">Every scene is scroll-position driven — no timed autoplay — so each frame below is a fixed progress <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#F5F5F5">p</span> inside that scene's pin, and scrubbing back reverses it exactly.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+      <a href="Nesture Labs Home.dc.html" style="display:flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;background:#E50914;color:#FFFFFF;font-size:14px;font-weight:500;white-space:nowrap;box-shadow:0 0 26px rgba(229,9,20,0.45)" style-hover="background:#FF2323;color:#FFFFFF">Open the live page →</a>
+      <a href="#nl-sheet" style="display:flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;border:1px solid #26262B;background:rgba(23,23,26,0.6);color:#F5F5F5;font-size:14px;white-space:nowrap" style-hover="border-color:#E50914;color:#F5F5F5">Component sheet</a>
+    </div>
+  </header>
+
+  <section style="padding:40px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">A / MOTION TOKENS</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:14px;margin-top:20px">
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">DRIVER</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Scroll progress</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">Each pinned section maps <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">-rect.top / (height − vh)</span> to 0…1. All state derives from that one number.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">EASING</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">easeOutCubic</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">Entrances use <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F5F5F5">1 − (1−t)³</span>; leg swing uses easeInOutQuad; CSS transitions use cubic-bezier(.2,.8,.2,1).</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">GAIT</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">Alternating tetrapod</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">Stride C = 96px of path length per cycle. Group B offset 0.5. Stance 0…0.5, swing 0.5…1.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">RIG</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">2-bone IK, 8 legs</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">Femur 44, tibia 46, knee sign per side. Body bob ±2.5px at twice step frequency.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">BUDGET</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">2.4ms / frame</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">One rAF loop, off-screen scenes skipped, SVG attribute writes only — no layout thrash.</p>
+      </div>
+      <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">REDUCED MOTION</div>
+        <div style="margin-top:12px;font-family:Poppins,sans-serif;font-weight:600;font-size:17px">End state, no pins</div>
+        <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:#A1A1AA">Pins collapse to 100vh, every scene renders resolved, keyframes disabled.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:52px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">B / STORYBOARD — TEN SCENES</div>
+    <p style="margin:14px 0 0;max-width:60ch;font-size:15px;line-height:1.7;color:#A1A1AA">Three frames per scene: entry, mid, resolve. Red is silk, the chip glyph is the mascot, grey blocks are copy and cards.</p>
+
+    <article data-screen-label="Scene 01" style="margin-top:26px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 01</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">Hero — descent on a dragline</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 220vh · MOBILE 180vh</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="1-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.00 — ENTERS TOP-RIGHT, HEADLINE STAGGERS</figcaption></figure>
+        <figure style="margin:0"><div data-art="1-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.45 — WALKING DOWN, STAT CARDS RISE</figcaption></figure>
+        <figure style="margin:0"><div data-art="1-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — IDLE, FRONT LEGS TRACK THE CURSOR</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 02" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 02</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">How we think — the web gets built</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 340vh · MOBILE 260vh · 6 BUILD STEPS</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="2-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.10 — BRIDGE THREAD ANCHORED</figcaption></figure>
+        <figure style="margin:0"><div data-art="2-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.42 — FRAME AND RADIALS COMPLETE</figcaption></figure>
+        <figure style="margin:0"><div data-art="2-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — CAPTURE SPIRAL, NODES LIT</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 03" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 03</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">Problems — bugs hit the web</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 320vh · MOBILE 230vh · 8 BUGS, 4 ON MOBILE</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="3-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.10 — FIRST BUG INBOUND</figcaption></figure>
+        <figure style="margin:0"><div data-art="3-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.55 — IMPACT, WEB FLEXES, RIPPLE OUT</figcaption></figure>
+        <figure style="margin:0"><div data-art="3-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — 8 / 8 CAUGHT, CHIPS LIT</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 04" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 04</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">Services — cocoons become cards</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 360vh · MOBILE 270vh · 8 CARDS, 2-UP ON MOBILE</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="4-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.10 — SILK WRAPS THE FIRST BUGS</figcaption></figure>
+        <figure style="margin:0"><div data-art="4-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.40 — PODS SEALED, CARDS RISING</figcaption></figure>
+        <figure style="margin:0"><div data-art="4-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — EIGHT SERVICE CARDS RESOLVED</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 05" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 05</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">How we work — one thread, five steps</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 300vh · MOBILE 230vh, 3 STEPS</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="5-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.05 — THREAD ENTERS FROM THE LEFT</figcaption></figure>
+        <figure style="margin:0"><div data-art="5-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.50 — STEP 03 LIGHTS AS IT PASSES</figcaption></figure>
+        <figure style="margin:0"><div data-art="5-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — ALL FIVE LIT, LABEL READS SCALE</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 06" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 06</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">Selected work — descending past the cards</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 320vh · MOBILE 250vh, 2 CARDS</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="6-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.10 — DRAGLINE FROM THE TOP EDGE</figcaption></figure>
+        <figure style="margin:0"><div data-art="6-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.50 — CARD 02 ARRIVES</figcaption></figure>
+        <figure style="margin:0"><div data-art="6-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — COUNTER RESOLVES AT 03 / 03</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 07" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 07</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">Client voices — hanging over the quotes</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 280vh · MOBILE 220vh, 1 QUOTE</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="7-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.00 — THREAD DROPS FROM THE CENTRE</figcaption></figure>
+        <figure style="margin:0"><div data-art="7-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.34 — SPIDER SETTLES, SWAY BEGINS</figcaption></figure>
+        <figure style="margin:0"><div data-art="7-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — THREE QUOTES IN, STILL HANGING</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 08" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 08</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">Why Nesture — plucking the threads</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 280vh · MOBILE 220vh, 2-UP TILES</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="8-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.10 — SPOKES DRAWN FROM THE HUB</figcaption></figure>
+        <figure style="margin:0"><div data-art="8-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.50 — RING 02 FILLS, TILE LIFTS</figcaption></figure>
+        <figure style="margin:0"><div data-art="8-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — FOUR RINGS FULL</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 09" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 09</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">Questions — crawling the rail</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 300vh · MOBILE 240vh · ONE ANSWER OPEN AT A TIME</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="9-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.05 — RAIL ENTERS, ALL ROWS CLOSED</figcaption></figure>
+        <figure style="margin:0"><div data-art="9-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.45 — ROW 02 OPEN, ROW 01 CLOSED BEHIND</figcaption></figure>
+        <figure style="margin:0"><div data-art="9-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — LAST ROW OPEN AT THE BOTTOM</figcaption></figure>
+      </div>
+    </article>
+
+    <article data-screen-label="Scene 10" style="margin-top:18px;padding:22px;border:1px solid #26262B;border-radius:20px;background:rgba(14,14,15,0.5)">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#E50914">SCENE 10</span>
+        <h3 style="margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.02em">Start — silk around the call to action</h3>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#A1A1AA">PIN 260vh · MOBILE 210vh</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:14px;margin-top:18px">
+        <figure style="margin:0"><div data-art="10-0" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.10 — THE FINAL DROP</figcaption></figure>
+        <figure style="margin:0"><div data-art="10-1" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 0.50 — SILK WINDS, CARD SCALES IN</figcaption></figure>
+        <figure style="margin:0"><div data-art="10-2" style="position:relative;aspect-ratio:16/9;border:1px solid #26262B;border-radius:12px;background:#0A0A0B;overflow:hidden"></div><figcaption style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;line-height:1.5;color:#A1A1AA">p 1.00 — CTA RESOLVED, BUTTONS IN</figcaption></figure>
+      </div>
+    </article>
+  </section>
+
+  <section id="nl-sheet" style="padding:52px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">C / COMPONENT SHEET</div>
+    <p style="margin:14px 0 0;max-width:60ch;font-size:15px;line-height:1.7;color:#A1A1AA">The parts the page is assembled from, at the sizes they ship at.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px;margin-top:24px">
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">NAV PILL</div>
+        <div style="margin:14px 0"><div style="display:flex;align-items:center;gap:14px;padding:8px 10px 8px 14px;border:1px solid #26262B;border-radius:999px;background:rgba(14,14,15,0.66)"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;white-space:nowrap">NESTURE LABS</span><span style="padding:7px 12px;border-radius:999px;background:#E50914;color:#FFFFFF;font-size:11.5px;white-space:nowrap">Get a Quote</span></div></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Floating, blur 16px, shrinks past 40px of scroll; links collapse under 1080px.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">STAT CARD</div>
+        <div style="margin:14px 0"><div style="padding:16px 18px;border:1px solid #26262B;border-radius:14px;background:rgba(23,23,26,0.6)"><div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;color:#A1A1AA">PROJECTS SHIPPED</div><div style="margin-top:10px;font-family:Poppins,sans-serif;font-weight:700;font-size:28px;letter-spacing:-0.03em">[X+]</div></div></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Placeholder figures stay bracketed until the real numbers land.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">SERVICE CARD</div>
+        <div style="margin:14px 0"><div style="padding:16px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)"><div style="display:flex;justify-content:space-between"><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#A1A1AA">01</span><span style="width:7px;height:7px;border:1px solid #E50914;border-radius:2px"></span></div><div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#A1A1AA">Slow website →</div><div style="margin-top:6px;font-family:Poppins,sans-serif;font-weight:600;font-size:16px">Web Development</div></div></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Problem kicker, solution title, stack tags. Tags and body shed on small screens.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">PROBLEM CHIP</div>
+        <div style="margin:14px 0;display:flex;gap:8px;flex-wrap:wrap"><span style="padding:7px 12px;border:1px solid #26262B;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#A1A1AA;white-space:nowrap">Slow website</span><span style="padding:7px 12px;border:1px solid #E50914;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#F5F5F5;white-space:nowrap">Broken app</span></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Grey until caught, then ink white with a red edge.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">IMAGE SLOT</div>
+        <div style="margin:14px 0"><div style="aspect-ratio:16/10;border-radius:10px;border:1px solid #26262B;background-color:#0E0E0F;background-image:repeating-linear-gradient(135deg,rgba(229,9,20,0.14) 0 10px,transparent 10px 20px);display:flex;align-items:flex-end;padding:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#A1A1AA">[PROJECT A — SCREENSHOT]</span></div></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Striped placeholder at 16:10, labelled with what belongs there.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">FAQ ROW</div>
+        <div style="margin:14px 0"><div style="padding:14px 16px;border:1px solid #E50914;border-radius:12px;background:rgba(35,35,40,0.7)"><div style="display:flex;justify-content:space-between;align-items:center;gap:14px"><span style="font-family:Poppins,sans-serif;font-weight:600;font-size:14px">How do you price work?</span><span style="width:9px;height:9px;background:#E50914;transform:rotate(45deg)"></span></div><div style="margin-top:10px;font-size:12.5px;line-height:1.6;color:#A1A1AA">Fixed price for defined scope…</div></div></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">The square mark rotates 45° and fills when the spider opens the row.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">BUTTONS</div>
+        <div style="margin:14px 0;display:flex;gap:10px;flex-wrap:wrap"><span style="display:flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;background:#E50914;color:#FFFFFF;font-size:13.5px;white-space:nowrap;box-shadow:0 0 24px rgba(229,9,20,0.45)">Get a Quote →</span><span style="display:flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #26262B;font-size:13.5px;white-space:nowrap">Explore</span></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Primary glows, ghost sits on blur. 52px tall in place, never below 44px.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">PALETTE</div>
+        <div style="margin:14px 0;display:flex;gap:8px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#E50914"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">E50914</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#FF2323"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">FF2323</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#8B0000"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">8B0000</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#0E0E0F"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">0E0E0F</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#26262B"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">26262B</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:40px;height:40px;border-radius:8px;border:1px solid #26262B;background:#A1A1AA"></span><span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#A1A1AA">A1A1AA</span></div>
+        </div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Two reds on near-black, grey ink for secondary copy. Max two background tones.</p>
+      </div>
+
+      <div style="padding:18px;border:1px solid #26262B;border-radius:16px;background:rgba(14,14,15,0.5)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">TYPE</div>
+        <div style="margin:14px 0;display:flex;flex-direction:column;gap:8px"><span style="font-family:Poppins,sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.03em">We Build What Scales.</span><span style="font-size:13.5px;color:#A1A1AA">Body copy sits at 15–17px, 1.65–1.7 line height.</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#A1A1AA">SECTION LABEL — 10PX / .2EM</span></div>
+        <p style="margin:0;font-size:12.5px;line-height:1.6;color:#A1A1AA">Poppins for headings, Inter for body, JetBrains Mono for labels and figures.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:52px 0 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:#E50914">D / MASCOT RIG</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:22px;align-items:start">
+      <div style="padding:22px;border:1px solid #26262B;border-radius:18px;background:rgba(23,23,26,0.6)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">SKELETON — HIPS, FEMUR, TIBIA, FOOT</div>
+        <svg id="nl-rigDiagram" viewBox="-170 -100 320 214" style="width:100%;height:auto;margin-top:14px;overflow:visible" aria-hidden="true"></svg>
+        <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#A1A1AA">CALLOUTS NAME THE SECOND LEFT LEG · THE OTHER SEVEN ARE DIMMED</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">GAIT — STANCE VERSUS SWING</div>
+          <svg id="nl-gait" viewBox="0 0 320 140" style="width:100%;height:auto;margin-top:12px" aria-hidden="true"></svg>
+          <div style="display:flex;justify-content:space-between;margin:6px 0 0 7.5%;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#A1A1AA">
+            <span>0</span>
+            <span>96px</span>
+            <span>192px</span>
+          </div>
+          <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;line-height:1.6;letter-spacing:.08em;color:#A1A1AA">RED = STANCE, FOOT PLANTED · GAP = SWING · ONE CYCLE = 96px OF PATH</div>
+        </div>
+        <div style="padding:20px;border:1px solid #26262B;border-radius:16px;background:rgba(23,23,26,0.6)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A1A1AA">RULES</div>
+          <ul style="margin:12px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.6;color:#A1A1AA">
+            <li>Feet plant in world space during stance — they never slide against the ground.</li>
+            <li>The body is the logo chip, redrawn from the source SVG paths, never re-illustrated.</li>
+            <li>Swing legs drop to 60% opacity and shorten toward the hip by 16%.</li>
+            <li>Heading eases 0.14 per frame, so direction changes never snap.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const BUILD = 'v4';
+const NS = 'http://www.w3.org/2000/svg';
+const el = (t, a, p) => { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); if (p) p.appendChild(n); return n; };
+
+const glyph = (x, y, s, core) => '<svg width="' + (20 * s) + '" height="' + (20 * s) + '" viewBox="-12 -12 24 24" style="position:absolute;left:' + x + '%;top:' + y + '%;transform:translate(-50%,-50%);overflow:visible" aria-hidden="true"><g fill="none" stroke="#FF2323" stroke-width="1.3"><rect x="-4" y="-5" width="8" height="10" rx="1"></rect><path d="M-4 -3l-6-4M-4 -1h-7M-4 2l-6 4M-4 4l-5 6M4 -3l6-4M4 -1h7M4 2l6 4M4 4l5 6"></path>' + (core ? '<rect x="-2" y="-2.5" width="4" height="5" style="animation:nlCore 2.4s ease-in-out infinite"></rect>' : '') + '</g></svg>';
+const silk = (d, o) => '<svg viewBox="0 0 320 180" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><path d="' + d + '" fill="none" stroke="#E50914" stroke-width="1" opacity="' + (o || 0.55) + '"></path></svg>';
+const bar = (x, y, w, hh, c) => '<div style="position:absolute;left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + hh + '%;border-radius:3px;background:' + c + '"></div>';
+const box = (x, y, w, hh, on) => '<div style="position:absolute;left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + hh + '%;border-radius:6px;border:1px solid ' + (on ? '#E50914' : '#26262B') + ';background:' + (on ? 'rgba(229,9,20,0.08)' : 'transparent') + '"></div>';
+const bug = (x, y) => '<svg width="14" height="14" viewBox="-9 -9 18 18" style="position:absolute;left:' + x + '%;top:' + y + '%;transform:translate(-50%,-50%)" aria-hidden="true"><g fill="none" stroke="#A1A1AA" stroke-width="1.1"><rect x="-5" y="-5" width="10" height="10"></rect><path d="M-5 -2h-4M-5 2h-4M5 -2h4M5 2h4M-2 -5v-4M2 -5v-4M-2 5v4M2 5v4"></path></g></svg>';
+const ring = (x, y, t) => '<svg width="26" height="26" viewBox="0 0 64 64" style="position:absolute;left:' + x + '%;top:' + y + '%;transform:translate(-50%,-50%)" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#26262B" stroke-width="5"></circle><circle cx="32" cy="32" r="26" fill="none" stroke="#FF2323" stroke-width="5" stroke-linecap="round" transform="rotate(-90 32 32)" stroke-dasharray="163.4" stroke-dashoffset="' + (163.4 * (1 - t)).toFixed(1) + '"></circle></svg>';
+const halo = (x, y, w, hh, r) => '<div style="position:absolute;left:' + x + '%;top:' + y + '%;width:' + w + '%;height:' + hh + '%;transform:translate(-50%,-50%);border:1px solid rgba(255,35,35,0.5);border-radius:' + r + '"></div>';
+
+function orb(cx, cy, r, stage) {
+  let s = '<svg viewBox="0 0 320 180" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><g fill="none" stroke="#FF2323" stroke-width="0.9">';
+  if (stage >= 1) s += '<path d="M' + (cx - r * 1.5) + ' ' + (cy - r * 1.1) + 'L' + (cx + r * 1.5) + ' ' + (cy - r) + '" opacity="0.8"></path>';
+  if (stage >= 2) {
+    let f = 'M';
+    for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2 - Math.PI / 2; f += (i ? 'L' : '') + (cx + Math.cos(a) * r * 1.08).toFixed(1) + ' ' + (cy + Math.sin(a) * r * 1.08).toFixed(1); }
+    s += '<path d="' + f + 'Z" opacity="0.7"></path>';
+  }
+  if (stage >= 3) for (let i = 0; i < 10; i++) { const a = i / 10 * Math.PI * 2 - Math.PI / 2; s += '<path d="M' + cx + ' ' + cy + 'L' + (cx + Math.cos(a) * r).toFixed(1) + ' ' + (cy + Math.sin(a) * r).toFixed(1) + '" opacity="0.55"></path>'; }
+  if (stage >= 4) {
+    let c = 'M';
+    for (let i = 0; i <= 120; i++) { const t = i / 120, a = -Math.PI / 2 - t * Math.PI * 2 * 4, rr = r * (0.98 - t * 0.82); c += (i ? 'L' : '') + (cx + Math.cos(a) * rr).toFixed(1) + ' ' + (cy + Math.sin(a) * rr).toFixed(1); }
+    s += '<path d="' + c + '" opacity="0.75"></path>';
+  }
+  return s + '</g></svg>';
+}
+
+// frame artwork only — every caption and label lives in the template
+const ART = {
+  '1-0': silk('M320 0 L300 26') + bar(8, 26, 44, 9, '#26262B') + bar(8, 40, 30, 8, '#1B1B1F') + glyph(93, 14, 1, false),
+  '1-1': silk('M320 0 L296 40 L268 84') + bar(8, 26, 44, 9, '#3A3A42') + bar(8, 40, 30, 8, '#26262B') + box(8, 62, 50, 15, false) + glyph(83, 47, 1, false),
+  '1-2': silk('M320 0 L296 40 L258 98 L242 112') + bar(8, 26, 44, 9, '#3A3A42') + bar(8, 40, 30, 8, '#26262B') + box(8, 62, 50, 15, false) + glyph(76, 62, 1.1, true),
+  '2-0': bar(6, 30, 32, 8, '#3A3A42') + bar(6, 43, 24, 6, '#26262B') + orb(210, 92, 52, 1) + glyph(52, 24, 0.9, false),
+  '2-1': bar(6, 30, 32, 8, '#3A3A42') + bar(6, 43, 24, 6, '#26262B') + orb(210, 92, 52, 3) + glyph(66, 51, 0.9, false),
+  '2-2': bar(6, 30, 32, 8, '#3A3A42') + bar(6, 43, 24, 6, '#26262B') + orb(210, 92, 52, 4) + glyph(66, 51, 0.9, true),
+  '3-0': bar(6, 28, 34, 8, '#3A3A42') + orb(210, 92, 52, 4) + bug(96, 18) + glyph(66, 51, 0.9, false),
+  '3-1': bar(6, 28, 34, 8, '#3A3A42') + bar(6, 60, 20, 12, '#1B1B1F') + orb(210, 92, 52, 4) + bug(84, 32) + bug(52, 74) + halo(84, 32, 16, 28, '50%') + glyph(66, 51, 0.9, true),
+  '3-2': bar(6, 28, 34, 8, '#3A3A42') + bar(6, 60, 20, 12, '#26262B') + orb(210, 92, 52, 4) + bug(88, 26) + bug(52, 74) + bug(40, 40) + bug(80, 66) + glyph(66, 51, 0.9, true),
+  '4-0': bar(6, 16, 40, 8, '#3A3A42') + box(6, 38, 20, 40, false) + box(29, 38, 20, 40, false) + box(52, 38, 20, 40, false) + box(75, 38, 19, 40, false) + bug(16, 58) + bug(39, 58) + glyph(24, 30, 0.8, false),
+  '4-1': bar(6, 16, 40, 8, '#3A3A42') + box(6, 38, 20, 40, true) + box(29, 38, 20, 40, true) + box(52, 38, 20, 40, false) + box(75, 38, 19, 40, false) + glyph(62, 30, 0.8, false),
+  '4-2': bar(6, 16, 40, 8, '#3A3A42') + box(6, 38, 20, 40, true) + box(29, 38, 20, 40, true) + box(52, 38, 20, 40, true) + box(75, 38, 19, 40, true),
+  '5-0': bar(6, 20, 34, 8, '#3A3A42') + silk('M0 96 L60 94') + box(6, 56, 16, 30, false) + box(25, 56, 16, 30, false) + box(44, 56, 16, 30, false) + box(63, 56, 16, 30, false) + box(82, 56, 12, 30, false) + glyph(16, 52, 0.8, false),
+  '5-1': bar(6, 20, 34, 8, '#3A3A42') + silk('M0 96 L180 93', 0.8) + box(6, 56, 16, 30, true) + box(25, 56, 16, 30, true) + box(44, 56, 16, 30, true) + box(63, 56, 16, 30, false) + box(82, 56, 12, 30, false) + glyph(54, 52, 0.8, false),
+  '5-2': bar(6, 20, 34, 8, '#3A3A42') + silk('M0 96 L320 96', 0.85) + box(6, 56, 16, 30, true) + box(25, 56, 16, 30, true) + box(44, 56, 16, 30, true) + box(63, 56, 16, 30, true) + box(82, 56, 12, 30, true) + glyph(97, 52, 0.8, false),
+  '6-0': bar(6, 18, 30, 8, '#3A3A42') + silk('M292 0 L294 40') + box(6, 40, 27, 44, false) + glyph(91, 20, 0.8, false),
+  '6-1': bar(6, 18, 30, 8, '#3A3A42') + silk('M292 0 L296 60 L290 104') + box(6, 40, 27, 44, true) + box(36, 40, 27, 44, true) + glyph(90, 56, 0.8, false),
+  '6-2': bar(6, 18, 30, 8, '#3A3A42') + silk('M292 0 L296 60 L288 130 L292 180') + box(6, 40, 27, 44, true) + box(36, 40, 27, 44, true) + box(66, 40, 27, 44, true) + glyph(91, 88, 0.8, false),
+  '7-0': bar(6, 18, 30, 8, '#3A3A42') + silk('M160 0 L160 30') + glyph(50, 17, 0.85, false),
+  '7-1': bar(6, 18, 30, 8, '#3A3A42') + silk('M160 0 L160 62', 0.6) + box(6, 52, 27, 34, true) + glyph(50, 35, 0.85, true),
+  '7-2': bar(6, 18, 30, 8, '#3A3A42') + silk('M160 0 L160 62', 0.6) + box(6, 52, 27, 34, true) + box(36, 52, 27, 34, true) + box(66, 52, 27, 34, true) + glyph(50, 35, 0.85, true),
+  '8-0': bar(6, 18, 28, 8, '#3A3A42') + orb(160, 108, 66, 3) + box(6, 46, 20, 40, false) + box(29, 46, 20, 40, false) + box(52, 46, 20, 40, false) + box(75, 46, 19, 40, false) + glyph(50, 60, 0.85, true),
+  '8-1': bar(6, 18, 28, 8, '#3A3A42') + orb(160, 108, 66, 3) + box(6, 46, 20, 40, true) + box(29, 46, 20, 40, true) + box(52, 46, 20, 40, false) + box(75, 46, 19, 40, false) + ring(16, 54, 1) + ring(39, 54, 0.6) + glyph(50, 60, 0.85, true),
+  '8-2': bar(6, 18, 28, 8, '#3A3A42') + orb(160, 108, 66, 3) + box(6, 46, 20, 40, true) + box(29, 46, 20, 40, true) + box(52, 46, 20, 40, true) + box(75, 46, 19, 40, true) + ring(16, 54, 1) + ring(39, 54, 1) + ring(62, 54, 1) + ring(84, 54, 1) + glyph(50, 60, 0.85, true),
+  '9-0': bar(6, 14, 30, 8, '#3A3A42') + silk('M28 0 L28 40') + box(14, 34, 76, 11, false) + box(14, 49, 76, 11, false) + box(14, 64, 76, 11, false) + glyph(9, 20, 0.8, false),
+  '9-1': bar(6, 14, 30, 8, '#3A3A42') + silk('M28 0 L28 100', 0.7) + box(14, 30, 76, 11, false) + box(14, 45, 76, 26, true) + box(14, 75, 76, 11, false) + glyph(9, 56, 0.8, false),
+  '9-2': bar(6, 14, 30, 8, '#3A3A42') + silk('M28 0 L28 180', 0.7) + box(14, 30, 76, 11, false) + box(14, 45, 76, 11, false) + box(14, 60, 76, 26, true) + glyph(9, 88, 0.8, false),
+  '10-0': silk('M160 0 L160 34') + box(26, 34, 48, 50, false) + glyph(50, 19, 0.9, false),
+  '10-1': silk('M160 0 L160 44', 0.6) + box(26, 34, 48, 50, true) + halo(50, 60, 56, 62, '18px') + glyph(50, 25, 0.9, true),
+  '10-2': silk('M160 0 L160 44', 0.6) + box(26, 34, 48, 50, true) + halo(50, 60, 60, 68, '20px') + bar(34, 68, 14, 8, '#E50914') + bar(52, 68, 14, 8, '#3A3A42') + glyph(50, 25, 0.9, true)
+};
+
+class Component extends DCLogic {
+  componentDidMount() { this.draw(); }
+  componentDidUpdate() { this.draw(); }
+
+  draw() {
+    document.querySelectorAll('[data-art]').forEach(slot => {
+      const art = ART[slot.getAttribute('data-art')];
+      if (art && slot.dataset.built !== BUILD) { slot.innerHTML = art; slot.dataset.built = BUILD; }
+    });
+
+    const rg = document.getElementById('nl-rigDiagram');
+    if (rg && rg.dataset.built !== BUILD) {
+      rg.dataset.built = BUILD;
+      rg.textContent = '';
+      const HIPS = [[-26, -16], [-30, -4], [-30, 10], [-26, 22]];
+      const FEET = [[-70, -86], [-100, -38], [-97, 33], [-68, 78]];
+      const g = el('g', {}, rg);
+      let mark = null;
+      for (const side of [-1, 1]) {
+        HIPS.forEach((hip, i) => {
+          const hx = hip[0] * side, hy = hip[1], fx = FEET[i][0] * side, fy = FEET[i][1];
+          const kx = (hx + fx) / 2 + 16 * side, ky = (hy + fy) / 2 - 6;
+          const named = side === 1 && i === 1;
+          const op = named ? 1 : 0.26;
+          el('polyline', { points: hx + ',' + hy + ' ' + kx + ',' + ky + ' ' + fx + ',' + fy, fill: 'none', stroke: '#FF2323', 'stroke-width': named ? 2.4 : 1.8, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: op }, g);
+          el('circle', { cx: kx, cy: ky, r: 2.8, fill: '#0A0A0B', stroke: '#FF2323', 'stroke-width': 1.2, opacity: op }, g);
+          el('circle', { cx: fx, cy: fy, r: 2.8, fill: '#FF2323', opacity: op }, g);
+          if (named) mark = { hx, hy, kx, ky, fx, fy };
+        });
+      }
+      const body = el('g', { transform: 'scale(0.06) translate(-1000,-812)' }, g);
+      const art2 = el('g', { fill: 'none', stroke: '#FF2323', 'stroke-width': 26 }, body);
+      ['M925 545H1075V650H925Z', 'M905 650H1095L1185 740V990L1095 1080H905L815 990V740Z', 'M915 730H1085L1115 760V970L1085 1000H915L885 970V760Z'].forEach(d => el('path', { d }, art2));
+      el('path', { d: 'M940 775H1060V955H940Z', 'stroke-width': 34, style: 'animation:nlCore 2.4s ease-in-out infinite' }, art2);
+
+      // leader lines so each label points at the segment it names
+      const lead = (x1, y1, x2, y2, tx, ty, anchor, text) => {
+        el('path', { d: 'M' + x1 + ' ' + y1 + 'L' + x2 + ' ' + y2, stroke: '#3A3A42', 'stroke-width': 0.8, fill: 'none' }, g);
+        el('circle', { cx: x1, cy: y1, r: 1.4, fill: '#3A3A42' }, g);
+        const t = el('text', { x: tx, y: ty, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8.5, 'text-anchor': anchor, 'letter-spacing': '0.06em' }, g);
+        t.textContent = text;
+      };
+      if (mark) {
+        // labels live in a clear column left of every leg (legs stop at x ≈ -100);
+        // each row leads right to the segment it names, rows 24px apart so none can collide
+        const rows = [
+          ['HIP', mark.hx - 2, mark.hy - 2],
+          ['FEMUR 44', (mark.hx + mark.kx) / 2, (mark.hy + mark.ky) / 2 - 2],
+          ['TIBIA 46', (mark.kx + mark.fx) / 2, (mark.ky + mark.fy) / 2 - 2],
+          ['FOOT', mark.fx, mark.fy]
+        ];
+        rows.forEach((r, i) => {
+          const ty = -86 + i * 24;
+          el('path', { d: 'M-118 ' + ty + 'L' + r[1].toFixed(1) + ' ' + r[2].toFixed(1), stroke: '#3A3A42', 'stroke-width': 0.8, fill: 'none' }, g);
+          el('circle', { cx: r[1].toFixed(1), cy: r[2].toFixed(1), r: 1.5, fill: '#3A3A42' }, g);
+          el('text', { x: -166, y: ty + 3, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8.5, 'letter-spacing': '0.06em' }, g).textContent = r[0];
+        });
+      }
+      el('text', { x: 0, y: 104, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8.5, 'text-anchor': 'middle', 'letter-spacing': '0.08em' }, g).textContent = '8 LEGS · 2-BONE IK · KNEE SIGN MIRRORS PER SIDE';
+    }
+
+    const gt = document.getElementById('nl-gait');
+    if (gt && gt.dataset.built !== BUILD) {
+      gt.dataset.built = BUILD;
+      gt.textContent = '';
+      const labels = ['L1', 'L2', 'L3', 'L4', 'R1', 'R2', 'R3', 'R4'];
+      const GROUP_B = [1, 3, 4, 6];
+      labels.forEach((lb, i) => {
+        const y = 14 + i * 16;
+        el('text', { x: 0, y: y + 4, fill: '#A1A1AA', 'font-family': 'JetBrains Mono, monospace', 'font-size': 8.5 }, gt).textContent = lb;
+        el('rect', { x: 24, y: y - 4, width: 282, height: 9, fill: '#141416', rx: 2 }, gt);
+        const off = GROUP_B.indexOf(i) >= 0 ? 0.5 : 0;
+        for (let c = 0; c < 2; c++) {
+          const x0 = 24 + (c + off) * 141;
+          if (x0 < 306) el('rect', { x: x0, y: y - 4, width: Math.min(70, 306 - x0), height: 9, fill: '#E50914', rx: 2, opacity: 0.85 }, gt);
+        }
+      });
+      // cycle boundaries only — the numbers live in the template axis row below
+      [0, 1, 2].forEach(i => {
+        const x = 24 + i * 141;
+        el('path', { d: 'M' + x + ' 4L' + x + ' 138', stroke: '#26262B', 'stroke-width': 0.8, fill: 'none' }, gt);
+      });
+    }
+  }
+
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
